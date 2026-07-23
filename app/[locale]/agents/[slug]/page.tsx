@@ -39,6 +39,7 @@ export default async function AgentProfilePage({
     getPropertiesByAgentId(agent.id),
   ]);
 
+  const title = localize(agent.title_sq ?? "", agent.title_en, appLocale);
   const bio = localize(agent.bio_sq ?? "", agent.bio_en, appLocale);
   const whatsappNumber = agent.whatsapp?.replace(/[^\d]/g, "");
 
@@ -58,7 +59,7 @@ export default async function AgentProfilePage({
         </div>
         <div className="flex-1">
           <h1 className="font-serif text-2xl text-foreground sm:text-3xl">{agent.full_name}</h1>
-          {agent.title && <p className="mt-1 text-muted">{agent.title}</p>}
+          {title && <p className="mt-1 text-muted">{title}</p>}
           {bio && <p className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground">{bio}</p>}
 
           <div className="mt-6 flex flex-wrap justify-center gap-2 sm:justify-start">

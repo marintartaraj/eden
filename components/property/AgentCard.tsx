@@ -1,11 +1,14 @@
 import Image from "next/image";
 import { Phone, MessageCircle, Mail } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { localize } from "@/lib/localize";
+import type { AppLocale } from "@/i18n/routing";
 import type { PropertyDetail } from "@/lib/data/properties";
 
 export async function AgentCard({ agent }: { agent: NonNullable<PropertyDetail["agent"]> }) {
-  const t = await getTranslations("detail");
+  const [t, locale] = await Promise.all([getTranslations("detail"), getLocale()]);
+  const title = localize(agent.title_sq ?? "", agent.title_en, locale as AppLocale);
   const whatsappNumber = agent.whatsapp?.replace(/[^\d]/g, "");
 
   return (
@@ -18,7 +21,7 @@ export async function AgentCard({ agent }: { agent: NonNullable<PropertyDetail["
         </div>
         <div>
           <p className="font-serif text-base text-foreground">{agent.full_name}</p>
-          {agent.title && <p className="text-sm text-muted">{agent.title}</p>}
+          {title && <p className="text-sm text-muted">{title}</p>}
         </div>
       </Link>
 

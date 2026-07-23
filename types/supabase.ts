@@ -156,7 +156,8 @@ export type Database = {
           profile_id: string | null;
           slug: string;
           full_name: string;
-          title: string | null;
+          title_sq: string | null;
+          title_en: string | null;
           bio_sq: string | null;
           bio_en: string | null;
           phone: string | null;
@@ -174,7 +175,8 @@ export type Database = {
           profile_id?: string | null;
           slug: string;
           full_name: string;
-          title?: string | null;
+          title_sq?: string | null;
+          title_en?: string | null;
           bio_sq?: string | null;
           bio_en?: string | null;
           phone?: string | null;
