@@ -1,0 +1,340 @@
+{
+  "site": {
+    "name": "Eden",
+    "tagline": "Find your ideal home in Albania",
+    "description": "Your trusted platform for buying, selling and renting property in Albania."
+  },
+  "nav": {
+    "home": "Home",
+    "properties": "Properties",
+    "forSale": "For Sale",
+    "forRent": "For Rent",
+    "newDevelopments": "New Developments",
+    "agents": "Agents",
+    "sellProperty": "Sell Your Property",
+    "about": "About",
+    "contact": "Contact",
+    "favorites": "Favorites"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "explore": "Explore",
+    "company": "Company"
+  },
+  "common": {
+    "language": "Language",
+    "menu": "Menu",
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "hero": {
+    "cityLabel": "City",
+    "cityPlaceholder": "Select city",
+    "neighborhoodLabel": "Neighborhood",
+    "neighborhoodPlaceholder": "Select neighborhood",
+    "typeLabel": "Property type",
+    "typePlaceholder": "All types",
+    "minPrice": "Min price",
+    "maxPrice": "Max price",
+    "search": "Search",
+    "advancedSearch": "Advanced Search",
+    "mapSearch": "Map Search"
+  },
+  "propertyTypes": {
+    "apartment": "Apartment",
+    "studio": "Studio",
+    "villa": "Villa",
+    "house": "Private House",
+    "land": "Land",
+    "office": "Office",
+    "shop": "Shop",
+    "commercial": "Commercial",
+    "warehouse": "Warehouse",
+    "hotel": "Hotel",
+    "parking": "Parking",
+    "building": "Entire Building"
+  },
+  "home": {
+    "heroTitle": "Find your next home in Albania",
+    "heroSubtitle": "Search hundreds of properties for sale and rent across Albania.",
+    "typesTitle": "Search by Property Type",
+    "featuredTitle": "Featured Properties",
+    "featuredSubtitle": "A curated selection of our most sought-after listings.",
+    "latestTitle": "Latest Properties",
+    "latestSubtitle": "The newest listings added to the platform.",
+    "viewAll": "View All",
+    "browseCityTitle": "Browse by City",
+    "browseCitySubtitle": "Discover properties in Albania's most in-demand cities.",
+    "propertiesCount": "{count, plural, one {# property} other {# properties}}",
+    "sellCtaTitle": "Want to sell or rent out your property?",
+    "sellCtaDescription": "Send us your property details and our team will get back to you within 24 hours.",
+    "sellCtaButton": "Get Started",
+    "agentsTitle": "Meet Our Agents",
+    "agentsSubtitle": "Our professional team is here to help you at every step.",
+    "viewProfile": "View Profile",
+    "whyTitle": "Why Choose Eden",
+    "whyVerifiedTitle": "Verified Listings",
+    "whyVerifiedDescription": "Every listing goes through a review process before it's published.",
+    "whyLocalTitle": "Local Expertise",
+    "whyLocalDescription": "Agents with deep knowledge of the Albanian property market.",
+    "whySupportTitle": "Dedicated Support",
+    "whySupportDescription": "From your first search to signing the contract, we're with you.",
+    "testimonialsTitle": "What Our Clients Say",
+    "guidesTitle": "Property Guides",
+    "guidesSubtitle": "Practical advice for buying, selling and renting.",
+    "readMore": "Read More"
+  },
+  "property": {
+    "badgeSale": "For Sale",
+    "badgeRent": "For Rent",
+    "featured": "Featured",
+    "exclusive": "Exclusive",
+    "reference": "Ref",
+    "bedroomsLabel": "Bedrooms",
+    "bathroomsLabel": "Bathrooms",
+    "areaLabel": "Area",
+    "floorLabel": "Floor",
+    "saveProperty": "Save to favorites"
+  },
+  "filters": {
+    "purposeSale": "For Sale",
+    "purposeRent": "For Rent",
+    "propertyType": "Property Type",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "areaRange": "Area (m²)",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "floor": "Floor",
+    "groundFloor": "Ground Floor",
+    "furnishing": "Furnishing",
+    "elevatorParking": "Elevator & Parking",
+    "hasElevator": "Has Elevator",
+    "hasParking": "Has Parking",
+    "condition": "Condition",
+    "certificate": "Property Certificate",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Max",
+    "any": "Any",
+    "clearAll": "Clear Filters",
+    "apply": "Apply Filters"
+  },
+  "sort": {
+    "label": "Sort by",
+    "newest": "Newest",
+    "priceAsc": "Price: Low to High",
+    "priceDesc": "Price: High to Low",
+    "areaDesc": "Largest Area"
+  },
+  "results": {
+    "title": "Properties",
+    "forSaleTitle": "Properties For Sale",
+    "forRentTitle": "Properties For Rent",
+    "count": "{count, plural, one {# property found} other {# properties found}}",
+    "empty": "No properties match your search. Try adjusting your filters.",
+    "mapComingSoonTitle": "Map search is coming soon",
+    "mapComingSoonBody": "We're working on an interactive map view. In the meantime, browse properties as a list or grid.",
+    "backToGrid": "Back to Grid"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {total}"
+  },
+  "view": {
+    "grid": "Grid",
+    "list": "List",
+    "map": "Map",
+    "filtersButton": "Filters"
+  },
+  "furnishingStatus": {
+    "unfurnished": "Unfurnished",
+    "semi_furnished": "Semi-Furnished",
+    "furnished": "Furnished"
+  },
+  "constructionCondition": {
+    "new": "New",
+    "under_construction": "Under Construction",
+    "renovated": "Renovated",
+    "needs_renovation": "Needs Renovation",
+    "old": "Old"
+  },
+  "certificateStatus": {
+    "yes": "Has Certificate",
+    "no": "No Certificate",
+    "in_process": "In Process"
+  },
+  "detail": {
+    "specifications": "Specifications",
+    "specPropertyType": "Property Type",
+    "specNetArea": "Net Area",
+    "specTotalFloors": "Total Floors",
+    "specFurnishing": "Furnishing",
+    "specElevator": "Elevator",
+    "specParking": "Parking",
+    "specCondition": "Condition",
+    "specConstructionYear": "Construction Year",
+    "specCertificate": "Certificate",
+    "yes": "Yes",
+    "no": "No",
+    "description": "Description",
+    "amenities": "Amenities",
+    "video": "Video",
+    "floorPlans": "Floor Plans",
+    "location": "Location",
+    "mapComingSoon": "Interactive map is coming soon",
+    "callAgent": "Call Agent",
+    "whatsapp": "WhatsApp",
+    "emailAgent": "Email Agent",
+    "share": "Share",
+    "linkCopied": "Link copied",
+    "similarProperties": "Similar Properties",
+    "recentlyViewed": "Recently Viewed",
+    "inquiry": {
+      "title": "Contact About This Property",
+      "typeGeneral": "General Inquiry",
+      "typeViewing": "Request a Viewing",
+      "namePlaceholder": "Your name",
+      "nameError": "Please enter your name.",
+      "emailPlaceholder": "Your email",
+      "emailError": "Please enter a valid email.",
+      "phonePlaceholder": "Phone number (optional)",
+      "messagePlaceholder": "Your message (optional)",
+      "preferredDate": "Preferred date",
+      "preferredTime": "Preferred time",
+      "dateError": "Please choose a viewing date.",
+      "submit": "Send Inquiry",
+      "submitting": "Sending...",
+      "successTitle": "Thank you!",
+      "successBody": "Your request has been sent. An agent will contact you shortly.",
+      "errorMessage": "Something went wrong. Please try again."
+    },
+    "mortgage": {
+      "title": "Mortgage Calculator",
+      "downPayment": "Down Payment",
+      "interestRate": "Interest Rate",
+      "loanTerm": "Loan Term",
+      "years": "years",
+      "estimatedPayment": "Estimated Monthly Payment",
+      "disclaimer": "This is an estimate only. Actual loan terms depend on the bank and your financial profile."
+    }
+  },
+  "agentsPage": {
+    "title": "Our Agents",
+    "subtitle": "Meet the professionals ready to help you buy, sell, or rent.",
+    "empty": "No agents available right now."
+  },
+  "agentProfile": {
+    "listingsTitle": "Properties by {name}",
+    "noListings": "This agent has no active listings right now."
+  },
+  "favorites": {
+    "subtitle": "Properties you've saved for later.",
+    "empty": "You haven't saved any properties yet.",
+    "browseCta": "Browse Properties"
+  },
+  "sellProperty": {
+    "pageTitle": "Sell or Rent Out Your Property",
+    "pageSubtitle": "Fill out the form below and our team will review your property before it goes live.",
+    "steps": {
+      "purpose": "Purpose",
+      "typeLocation": "Type & Location",
+      "characteristics": "Characteristics",
+      "condition": "Condition",
+      "price": "Price",
+      "photos": "Photos",
+      "contact": "Contact",
+      "review": "Review"
+    },
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit for Review",
+    "submitting": "Submitting...",
+    "submitError": "Something went wrong. Please try again.",
+    "step1": {
+      "title": "Do you want to sell or rent out your property?",
+      "subtitle": "Choose the option that matches your goal.",
+      "sale": "Sale",
+      "rent": "Rent"
+    },
+    "step2": {
+      "title": "Property type and location",
+      "subtitle": "Tell us what kind of property it is and where it's located.",
+      "propertyType": "Property Type",
+      "propertyTypeError": "Please select a property type.",
+      "city": "City",
+      "cityPlaceholder": "Select city",
+      "cityError": "Please select a city.",
+      "neighborhood": "Neighborhood",
+      "neighborhoodPlaceholder": "Select neighborhood (optional)",
+      "address": "Address",
+      "addressPlaceholder": "Street, number (optional)"
+    },
+    "step3": {
+      "title": "Area and characteristics",
+      "subtitle": "Details about the size and structure of the property.",
+      "grossArea": "Gross Area (m²)",
+      "grossAreaError": "Please enter a valid area.",
+      "netArea": "Net Area (m²)",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "floor": "Floor",
+      "totalFloors": "Total Floors",
+      "furnishing": "Furnishing",
+      "elevator": "Has Elevator",
+      "parking": "Has Parking"
+    },
+    "step4": {
+      "title": "Condition and documentation",
+      "subtitle": "Tell us about the property's condition and certificate status.",
+      "condition": "Construction Condition",
+      "constructionYear": "Construction Year",
+      "certificate": "Certificate Status"
+    },
+    "step5": {
+      "title": "Expected price",
+      "subtitle": "Set the price you'd like for your property.",
+      "priceSale": "Sale Price (EUR)",
+      "priceRent": "Monthly Rent (EUR)",
+      "priceError": "Please enter a valid price."
+    },
+    "step6": {
+      "title": "Property photos",
+      "subtitle": "Upload at least one photo. Quality photos help your property stand out.",
+      "uploadCta": "Choose Photos",
+      "uploadHint": "JPG, PNG or WEBP, up to 8MB each",
+      "remove": "Remove photo",
+      "invalidType": "This file type isn't supported.",
+      "tooLarge": "File is too large (max 8MB).",
+      "uploadError": "Upload failed. Please try again.",
+      "minPhotosError": "Please upload at least one photo."
+    },
+    "step7": {
+      "title": "Your contact information",
+      "subtitle": "How can our team reach you?",
+      "name": "Full Name",
+      "nameError": "Please enter your name.",
+      "phone": "Phone Number",
+      "phoneError": "Please enter a valid phone number.",
+      "email": "Email",
+      "emailError": "Please enter a valid email."
+    },
+    "step8": {
+      "title": "Review and submit",
+      "subtitle": "Check the details before submitting your property.",
+      "purpose": "Purpose",
+      "propertyType": "Type",
+      "location": "Location",
+      "area": "Area",
+      "price": "Price",
+      "photos": "Photos",
+      "confirmLabel": "I confirm the information above is accurate.",
+      "confirmError": "Please confirm before continuing."
+    },
+    "success": {
+      "title": "Thank you!",
+      "body": "Your property has been sent for review. Our team will review it and get back to you shortly.",
+      "backHome": "Back to Home"
+    }
+  }
+}

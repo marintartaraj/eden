@@ -1,0 +1,340 @@
+{
+  "site": {
+    "name": "Eden",
+    "tagline": "Gjeni shtëpinë tuaj ideale në Shqipëri",
+    "description": "Platforma juaj e besuar për blerje, shitje dhe qira pronash në Shqipëri."
+  },
+  "nav": {
+    "home": "Ballina",
+    "properties": "Pronat",
+    "forSale": "Në Shitje",
+    "forRent": "Me Qira",
+    "newDevelopments": "Projekte të Reja",
+    "agents": "Agjentët",
+    "sellProperty": "Shit Pronën",
+    "about": "Rreth Nesh",
+    "contact": "Kontakt",
+    "favorites": "Të Preferuarat"
+  },
+  "footer": {
+    "rights": "Të gjitha të drejtat e rezervuara.",
+    "explore": "Eksploro",
+    "company": "Kompania"
+  },
+  "common": {
+    "language": "Gjuha",
+    "menu": "Menu",
+    "close": "Mbyll",
+    "loading": "Duke u ngarkuar..."
+  },
+  "hero": {
+    "cityLabel": "Qyteti",
+    "cityPlaceholder": "Zgjidh qytetin",
+    "neighborhoodLabel": "Lagjja",
+    "neighborhoodPlaceholder": "Zgjidh lagjen",
+    "typeLabel": "Lloji i pronës",
+    "typePlaceholder": "Të gjitha llojet",
+    "minPrice": "Çmimi min.",
+    "maxPrice": "Çmimi maks.",
+    "search": "Kërko",
+    "advancedSearch": "Kërkim i Avancuar",
+    "mapSearch": "Kërko në Hartë"
+  },
+  "propertyTypes": {
+    "apartment": "Apartament",
+    "studio": "Studio",
+    "villa": "Vilë",
+    "house": "Shtëpi Private",
+    "land": "Truall",
+    "office": "Zyrë",
+    "shop": "Dyqan",
+    "commercial": "Ambient Komercial",
+    "warehouse": "Depo",
+    "hotel": "Hotel",
+    "parking": "Parking",
+    "building": "Pallat i Plotë"
+  },
+  "home": {
+    "heroTitle": "Gjeni shtëpinë tuaj të ardhshme në Shqipëri",
+    "heroSubtitle": "Kërkoni mes qindra pronave për shitje dhe me qira në të gjithë Shqipërinë.",
+    "typesTitle": "Kërko sipas Llojit të Pronës",
+    "featuredTitle": "Prona të Veçuara",
+    "featuredSubtitle": "Përzgjedhje e pronave më të kërkuara nga ekipi ynë.",
+    "latestTitle": "Pronat më të Fundit",
+    "latestSubtitle": "Listimet më të fundit të shtuara në platformë.",
+    "viewAll": "Shiko të Gjitha",
+    "browseCityTitle": "Eksploro sipas Qytetit",
+    "browseCitySubtitle": "Zbuloni prona në qytetet më të kërkuara të Shqipërisë.",
+    "propertiesCount": "{count, plural, one {# pronë} other {# prona}}",
+    "sellCtaTitle": "Doni të shisni ose të jepni me qira pronën tuaj?",
+    "sellCtaDescription": "Na dërgoni detajet e pronës suaj dhe ekipi ynë do t'ju kontaktojë brenda 24 orëve.",
+    "sellCtaButton": "Fillo Tani",
+    "agentsTitle": "Njihuni me Agjentët Tanë",
+    "agentsSubtitle": "Ekipi ynë profesional është këtu për t'ju ndihmuar në çdo hap.",
+    "viewProfile": "Shiko Profilin",
+    "whyTitle": "Pse të Zgjidhni Eden",
+    "whyVerifiedTitle": "Prona të Verifikuara",
+    "whyVerifiedDescription": "Çdo pronë kalon nëpër një proces rishikimi përpara publikimit.",
+    "whyLocalTitle": "Ekspertizë Lokale",
+    "whyLocalDescription": "Agjentë me njohuri të thelluara për tregun shqiptar të patundshmërive.",
+    "whySupportTitle": "Mbështetje e Dedikuar",
+    "whySupportDescription": "Nga kërkimi i parë deri te firmosja e kontratës, jemi pranë jush.",
+    "testimonialsTitle": "Çfarë Thonë Klientët Tanë",
+    "guidesTitle": "Udhëzues për Pronën",
+    "guidesSubtitle": "Këshilla praktike për blerje, shitje dhe qira.",
+    "readMore": "Lexo Më Shumë"
+  },
+  "property": {
+    "badgeSale": "Shitet",
+    "badgeRent": "Me Qira",
+    "featured": "E Veçuar",
+    "exclusive": "Ekskluzive",
+    "reference": "Ref",
+    "bedroomsLabel": "Dhoma gjumi",
+    "bathroomsLabel": "Banjo",
+    "areaLabel": "Sipërfaqja",
+    "floorLabel": "Kati",
+    "saveProperty": "Ruaj në të preferuarat"
+  },
+  "filters": {
+    "purposeSale": "Në Shitje",
+    "purposeRent": "Me Qira",
+    "propertyType": "Lloji i Pronës",
+    "location": "Vendndodhja",
+    "priceRange": "Intervali i Çmimit",
+    "areaRange": "Sipërfaqja (m²)",
+    "bedrooms": "Dhoma Gjumi",
+    "bathrooms": "Banjo",
+    "floor": "Kati",
+    "groundFloor": "Përdhesë",
+    "furnishing": "Mobilim",
+    "elevatorParking": "Ashensor dhe Parking",
+    "hasElevator": "Me Ashensor",
+    "hasParking": "Me Parking",
+    "condition": "Gjendja",
+    "certificate": "Certifikata e Pronës",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Maks",
+    "any": "Të gjitha",
+    "clearAll": "Pastro Filtrat",
+    "apply": "Apliko Filtrat"
+  },
+  "sort": {
+    "label": "Rendit sipas",
+    "newest": "Më të Rejat",
+    "priceAsc": "Çmimi: Nga më i Ulëti",
+    "priceDesc": "Çmimi: Nga më i Larti",
+    "areaDesc": "Sipërfaqja më e Madhe"
+  },
+  "results": {
+    "title": "Pronat",
+    "forSaleTitle": "Prona në Shitje",
+    "forRentTitle": "Prona me Qira",
+    "count": "{count, plural, one {# pronë e gjetur} other {# prona të gjetura}}",
+    "empty": "Asnjë pronë nuk përputhet me kërkimin tuaj. Provoni të ndryshoni filtrat.",
+    "mapComingSoonTitle": "Kërkimi në hartë po vjen së shpejti",
+    "mapComingSoonBody": "Po punojmë për një pamje interaktive të hartës. Ndërkohë, shfletoni pronat si listë ose rrjetë.",
+    "backToGrid": "Kthehu te Rrjeta"
+  },
+  "pagination": {
+    "previous": "E Mëparshme",
+    "next": "Tjetra",
+    "page": "Faqja {page} nga {total}"
+  },
+  "view": {
+    "grid": "Rrjetë",
+    "list": "Listë",
+    "map": "Hartë",
+    "filtersButton": "Filtrat"
+  },
+  "furnishingStatus": {
+    "unfurnished": "Pa Mobilim",
+    "semi_furnished": "Gjysmë e Mobiluar",
+    "furnished": "E Mobiluar"
+  },
+  "constructionCondition": {
+    "new": "E Re",
+    "under_construction": "Në Ndërtim",
+    "renovated": "E Rinovuar",
+    "needs_renovation": "Ka Nevojë për Rinovim",
+    "old": "E Vjetër"
+  },
+  "certificateStatus": {
+    "yes": "Me Certifikatë",
+    "no": "Pa Certifikatë",
+    "in_process": "Në Proces"
+  },
+  "detail": {
+    "specifications": "Specifikimet",
+    "specPropertyType": "Lloji i Pronës",
+    "specNetArea": "Sipërfaqja Neto",
+    "specTotalFloors": "Numri i Kateve",
+    "specFurnishing": "Mobilimi",
+    "specElevator": "Ashensor",
+    "specParking": "Parking",
+    "specCondition": "Gjendja",
+    "specConstructionYear": "Viti i Ndërtimit",
+    "specCertificate": "Certifikata",
+    "yes": "Po",
+    "no": "Jo",
+    "description": "Përshkrimi",
+    "amenities": "Komoditetet",
+    "video": "Video",
+    "floorPlans": "Planimetria",
+    "location": "Vendndodhja",
+    "mapComingSoon": "Harta interaktive po vjen së shpejti",
+    "callAgent": "Telefono Agjentin",
+    "whatsapp": "WhatsApp",
+    "emailAgent": "Dërgo Email",
+    "share": "Shpërndaj",
+    "linkCopied": "Linku u kopjua",
+    "similarProperties": "Prona të Ngjashme",
+    "recentlyViewed": "Shikuar Së Fundmi",
+    "inquiry": {
+      "title": "Kontakto për këtë Pronë",
+      "typeGeneral": "Pyetje e Përgjithshme",
+      "typeViewing": "Kërko Vizitë",
+      "namePlaceholder": "Emri juaj",
+      "nameError": "Ju lutemi shkruani emrin tuaj.",
+      "emailPlaceholder": "Email-i juaj",
+      "emailError": "Ju lutemi shkruani një email të vlefshëm.",
+      "phonePlaceholder": "Numri i telefonit (opsionale)",
+      "messagePlaceholder": "Mesazhi juaj (opsionale)",
+      "preferredDate": "Data e preferuar",
+      "preferredTime": "Ora e preferuar",
+      "dateError": "Ju lutemi zgjidhni një datë për vizitën.",
+      "submit": "Dërgo Kërkesën",
+      "submitting": "Duke dërguar...",
+      "successTitle": "Faleminderit!",
+      "successBody": "Kërkesa juaj u dërgua. Një agjent do t'ju kontaktojë së shpejti.",
+      "errorMessage": "Diçka shkoi keq. Ju lutemi provoni përsëri."
+    },
+    "mortgage": {
+      "title": "Kalkulatori i Kredisë",
+      "downPayment": "Pagesa Fillestare",
+      "interestRate": "Norma e Interesit",
+      "loanTerm": "Afati i Kredisë",
+      "years": "vite",
+      "estimatedPayment": "Këst Mujor i Vlerësuar",
+      "disclaimer": "Ky është vetëm një vlerësim. Kushtet reale të kredisë varen nga banka dhe profili juaj financiar."
+    }
+  },
+  "agentsPage": {
+    "title": "Agjentët Tanë",
+    "subtitle": "Njihuni me profesionistët gati t'ju ndihmojnë të blini, shisni ose merrni me qira.",
+    "empty": "Nuk ka agjentë të disponueshëm për momentin."
+  },
+  "agentProfile": {
+    "listingsTitle": "Pronat nga {name}",
+    "noListings": "Ky agjent nuk ka prona aktive për momentin."
+  },
+  "favorites": {
+    "subtitle": "Pronat që keni ruajtur për më vonë.",
+    "empty": "Nuk keni ruajtur asnjë pronë ende.",
+    "browseCta": "Shfleto Pronat"
+  },
+  "sellProperty": {
+    "pageTitle": "Shit ose Jep me Qira Pronën Tuaj",
+    "pageSubtitle": "Plotësoni formularin më poshtë dhe ekipi ynë do ta rishikojë pronën tuaj përpara publikimit.",
+    "steps": {
+      "purpose": "Qëllimi",
+      "typeLocation": "Lloji dhe Vendndodhja",
+      "characteristics": "Karakteristikat",
+      "condition": "Gjendja",
+      "price": "Çmimi",
+      "photos": "Fotografitë",
+      "contact": "Kontakti",
+      "review": "Rishikimi"
+    },
+    "next": "Vazhdo",
+    "back": "Kthehu",
+    "submit": "Dërgo për Rishikim",
+    "submitting": "Duke dërguar...",
+    "submitError": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "step1": {
+      "title": "Doni ta shisni apo ta jepni me qira pronën tuaj?",
+      "subtitle": "Zgjidhni opsionin që përshtatet me qëllimin tuaj.",
+      "sale": "Shitje",
+      "rent": "Qira"
+    },
+    "step2": {
+      "title": "Lloji dhe vendndodhja e pronës",
+      "subtitle": "Na tregoni çfarë lloj prone është dhe ku ndodhet.",
+      "propertyType": "Lloji i Pronës",
+      "propertyTypeError": "Ju lutemi zgjidhni llojin e pronës.",
+      "city": "Qyteti",
+      "cityPlaceholder": "Zgjidh qytetin",
+      "cityError": "Ju lutemi zgjidhni qytetin.",
+      "neighborhood": "Lagjja",
+      "neighborhoodPlaceholder": "Zgjidh lagjen (opsionale)",
+      "address": "Adresa",
+      "addressPlaceholder": "Rruga, numri (opsionale)"
+    },
+    "step3": {
+      "title": "Sipërfaqja dhe karakteristikat",
+      "subtitle": "Detaje rreth madhësisë dhe strukturës së pronës.",
+      "grossArea": "Sipërfaqja Bruto (m²)",
+      "grossAreaError": "Ju lutemi shkruani një sipërfaqe të vlefshme.",
+      "netArea": "Sipërfaqja Neto (m²)",
+      "bedrooms": "Dhoma Gjumi",
+      "bathrooms": "Banjo",
+      "floor": "Kati",
+      "totalFloors": "Numri i Kateve",
+      "furnishing": "Mobilimi",
+      "elevator": "Ka Ashensor",
+      "parking": "Ka Parking"
+    },
+    "step4": {
+      "title": "Gjendja dhe dokumentacioni",
+      "subtitle": "Na tregoni për gjendjen e pronës dhe statusin e certifikatës.",
+      "condition": "Gjendja e Ndërtimit",
+      "constructionYear": "Viti i Ndërtimit",
+      "certificate": "Statusi i Certifikatës"
+    },
+    "step5": {
+      "title": "Çmimi i pritshëm",
+      "subtitle": "Vendosni çmimin që dëshironi për pronën tuaj.",
+      "priceSale": "Çmimi i Shitjes (EUR)",
+      "priceRent": "Çmimi i Qirasë Mujore (EUR)",
+      "priceError": "Ju lutemi shkruani një çmim të vlefshëm."
+    },
+    "step6": {
+      "title": "Fotografi të pronës",
+      "subtitle": "Ngarkoni të paktën një fotografi. Fotografi cilësore ndihmojnë pronën tuaj të dallohet.",
+      "uploadCta": "Zgjidh Fotografi",
+      "uploadHint": "JPG, PNG ose WEBP, deri në 8MB secila",
+      "remove": "Hiq fotografinë",
+      "invalidType": "Formati i skedarit nuk mbështetet.",
+      "tooLarge": "Skedari është shumë i madh (maks. 8MB).",
+      "uploadError": "Ngarkimi dështoi. Provoni përsëri.",
+      "minPhotosError": "Ju lutemi ngarkoni të paktën një fotografi."
+    },
+    "step7": {
+      "title": "Informacioni juaj i kontaktit",
+      "subtitle": "Si mund t'ju kontaktojë ekipi ynë?",
+      "name": "Emri i Plotë",
+      "nameError": "Ju lutemi shkruani emrin tuaj.",
+      "phone": "Numri i Telefonit",
+      "phoneError": "Ju lutemi shkruani një numër telefoni të vlefshëm.",
+      "email": "Email",
+      "emailError": "Ju lutemi shkruani një email të vlefshëm."
+    },
+    "step8": {
+      "title": "Rishikoni dhe dërgoni",
+      "subtitle": "Kontrolloni detajet përpara se ta dërgoni pronën tuaj.",
+      "purpose": "Qëllimi",
+      "propertyType": "Lloji",
+      "location": "Vendndodhja",
+      "area": "Sipërfaqja",
+      "price": "Çmimi",
+      "photos": "Fotografi",
+      "confirmLabel": "Konfirmoj që informacioni i mësipërm është i saktë.",
+      "confirmError": "Ju lutemi konfirmoni përpara se të vazhdoni."
+    },
+    "success": {
+      "title": "Faleminderit!",
+      "body": "Prona juaj u dërgua për rishikim. Ekipi ynë do ta shqyrtojë dhe do t'ju kontaktojë së shpejti.",
+      "backHome": "Kthehu në Ballina"
+    }
+  }
+}
