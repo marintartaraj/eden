@@ -2,15 +2,19 @@ import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { PropertyList } from "@/components/property/PropertyList";
-import { MapViewPlaceholder } from "@/components/property/MapViewPlaceholder";
+import { PropertyMap, type PropertyMapMarker } from "@/components/property/PropertyMap";
 import { SortSelect } from "@/components/property/SortSelect";
 import { ViewToggle } from "@/components/property/ViewToggle";
 import { Pagination } from "@/components/property/Pagination";
 import { FilterPanel } from "@/components/property/FilterPanel";
 import { FilterSheetTrigger } from "@/components/property/FilterSheetTrigger";
+import { SaveSearchButton } from "@/components/account/SaveSearchButton";
 import { getCities, getNeighborhoods } from "@/lib/data/locations";
 import { searchProperties, DEFAULT_PAGE_SIZE } from "@/lib/data/properties";
 import { parsePropertiesSearchParams, toFilters } from "@/lib/filters/property-filters";
+import { resolveCoordinates } from "@/lib/city-coordinates";
+import { localize } from "@/lib/localize";
+import { getPathname } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 
 export async function PropertiesResults({
@@ -49,6 +53,21 @@ export async function PropertiesResults({
 
   const showPagination = query.view !== "map";
 
+  const mapMarkers: PropertyMapMarker[] =
+    query.view === "map"
+      ? result.items.reduce<PropertyMapMarker[]>((markers, property) => {
+          const coordinates = resolveCoordinates(property.lat, property.lng, property.city?.slug);
+          if (!coordinates) return markers;
+          markers.push({
+            lat: coordinates.lat,
+            lng: coordinates.lng,
+            label: localize(property.title_sq, property.title_en, locale),
+            href: getPathname({ href: `/properties/${property.slug}`, locale }),
+          });
+          return markers;
+        }, [])
+      : [];
+
   return (
     <Container className="py-8 sm:py-12">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -69,6 +88,7 @@ export async function PropertiesResults({
           />
           <SortSelect query={query} basePath={basePath} />
           <ViewToggle query={query} basePath={basePath} />
+          <SaveSearchButton basePath={basePath} query={query} />
         </div>
       </div>
 
@@ -87,7 +107,13 @@ export async function PropertiesResults({
 
         <div>
           {query.view === "map" ? (
-            <MapViewPlaceholder query={query} basePath={basePath} />
+            mapMarkers.length > 0 ? (
+              <PropertyMap markers={mapMarkers} className="h-[60vh] w-full overflow-hidden rounded-2xl" />
+            ) : (
+              <div className="rounded-2xl border border-border bg-card px-6 py-24 text-center text-muted">
+                {resultsT("empty")}
+              </div>
+            )
           ) : result.items.length === 0 ? (
             <div className="rounded-2xl border border-border bg-card px-6 py-24 text-center text-muted">
               {resultsT("empty")}

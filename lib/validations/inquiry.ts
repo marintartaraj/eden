@@ -9,6 +9,7 @@ export const inquirySchema = z
     message: z.string().trim().max(2000).optional(),
     preferredDate: z.string().optional(),
     preferredTime: z.string().optional(),
+    honeypot: z.string().max(0).optional(),
   })
   .superRefine((data, ctx) => {
     if (data.type === "viewing_request" && !data.preferredDate) {

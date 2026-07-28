@@ -62,6 +62,19 @@ async function attachRelations(rows: PropertyRow[]): Promise<PropertyListItem[]>
   });
 }
 
+// Lean query for sitemap generation — no images/city joins needed there.
+export async function getAllActivePropertySlugs(): Promise<
+  { slug: string; updated_at: string }[]
+> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("properties")
+    .select("slug, updated_at")
+    .eq("status", "active");
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function getFeaturedProperties(limit = 6): Promise<PropertyListItem[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -300,6 +313,22 @@ export async function getPropertiesByAgentId(
     .select("*")
     .eq("status", "active")
     .eq("agent_id", agentId)
+    .order("published_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  return attachRelations(data ?? []);
+}
+
+export async function getPropertiesByDevelopmentId(
+  developmentId: string,
+  limit = 24,
+): Promise<PropertyListItem[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("properties")
+    .select("*")
+    .eq("status", "active")
+    .eq("development_id", developmentId)
     .order("published_at", { ascending: false })
     .limit(limit);
   if (error) throw error;

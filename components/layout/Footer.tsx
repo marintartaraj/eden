@@ -51,6 +51,12 @@ export async function Footer() {
           <Link href="/contact" className="text-muted hover:text-foreground">
             {t("nav.contact")}
           </Link>
+          <Link href="/privacy" className="text-muted hover:text-foreground">
+            {t("nav.privacy")}
+          </Link>
+          <Link href="/terms" className="text-muted hover:text-foreground">
+            {t("nav.terms")}
+          </Link>
         </div>
       </Container>
 

@@ -2,6 +2,7 @@
 
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { cn } from "@/lib/utils";
 
 export function FavoriteButton({
@@ -11,8 +12,10 @@ export function FavoriteButton({
   propertyId: string;
   label: string;
 }) {
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const active = isFavorite(propertyId);
+  const local = useFavorites();
+  const auth = useAuth();
+
+  const active = auth.user ? auth.isFavorite(propertyId) : local.isFavorite(propertyId);
 
   return (
     <button
@@ -22,7 +25,11 @@ export function FavoriteButton({
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        toggleFavorite(propertyId);
+        if (auth.user) {
+          auth.toggleFavorite(propertyId);
+        } else {
+          local.toggleFavorite(propertyId);
+        }
       }}
       className={cn(
         "flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur transition-colors hover:text-danger",

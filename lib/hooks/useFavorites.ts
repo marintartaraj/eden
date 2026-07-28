@@ -53,5 +53,10 @@ export function useFavorites() {
     window.dispatchEvent(new Event(CHANGE_EVENT));
   }, []);
 
-  return { favorites, isFavorite, toggleFavorite };
+  const clearFavorites = useCallback(() => {
+    window.localStorage.removeItem(STORAGE_KEY);
+    window.dispatchEvent(new Event(CHANGE_EVENT));
+  }, []);
+
+  return { favorites, isFavorite, toggleFavorite, clearFavorites };
 }

@@ -5,6 +5,7 @@ import {
   CONSTRUCTION_CONDITIONS,
   CERTIFICATE_STATUSES,
 } from "@/lib/property-enums";
+import { optionalNumber } from "@/lib/validations/zod-helpers";
 
 export const propertySubmissionSchema = z.object({
   purpose: z.enum(["sale", "rent"]),
@@ -15,17 +16,17 @@ export const propertySubmissionSchema = z.object({
   addressLine: z.string().max(200).optional(),
 
   grossArea: z.coerce.number().positive(),
-  netArea: z.coerce.number().positive().optional(),
-  bedrooms: z.coerce.number().int().min(0).max(50).optional(),
-  bathrooms: z.coerce.number().int().min(0).max(50).optional(),
-  floor: z.coerce.number().int().min(-2).max(200).optional(),
-  totalFloors: z.coerce.number().int().min(0).max(200).optional(),
+  netArea: optionalNumber(z.coerce.number().positive()),
+  bedrooms: optionalNumber(z.coerce.number().int().min(0).max(50)),
+  bathrooms: optionalNumber(z.coerce.number().int().min(0).max(50)),
+  floor: optionalNumber(z.coerce.number().int().min(-2).max(200)),
+  totalFloors: optionalNumber(z.coerce.number().int().min(0).max(200)),
   furnishing: z.enum(FURNISHING_STATUSES).optional(),
   hasElevator: z.boolean().optional(),
   hasParking: z.boolean().optional(),
 
   constructionCondition: z.enum(CONSTRUCTION_CONDITIONS).optional(),
-  constructionYear: z.coerce.number().int().min(1800).max(2100).optional(),
+  constructionYear: optionalNumber(z.coerce.number().int().min(1800).max(2100)),
   certificateStatus: z.enum(CERTIFICATE_STATUSES).optional(),
 
   price: z.coerce.number().positive(),
@@ -37,6 +38,8 @@ export const propertySubmissionSchema = z.object({
   ownerEmail: z.string().trim().min(1).email(),
 
   agreeToTerms: z.boolean().refine((v) => v === true),
+
+  honeypot: z.string().max(0).optional(),
 });
 
 // Split input/output: fields using z.coerce (the numeric ones) have a wider

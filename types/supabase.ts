@@ -10,7 +10,8 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type UserRole = "visitor" | "owner" | "agent" | "admin";
+export type UserRole = "visitor" | "owner" | "agent" | "admin" | "registered_user";
+export type AccountStatus = "active" | "suspended";
 export type PropertyPurpose = "sale" | "rent";
 export type PropertyStatus =
   | "draft"
@@ -20,7 +21,7 @@ export type PropertyStatus =
   | "sold"
   | "rented"
   | "archived";
-export type PropertySource = "admin" | "owner_submission";
+export type PropertySource = "admin" | "owner_submission" | "agent";
 export type PropertyType =
   | "apartment"
   | "studio"
@@ -44,6 +45,16 @@ export type ConstructionCondition =
 export type CertificateStatus = "yes" | "no" | "in_process";
 export type InquiryType = "general" | "viewing_request";
 export type InquiryStatus = "new" | "contacted" | "qualified" | "closed";
+export type SubmissionStatus =
+  | "draft"
+  | "submitted"
+  | "pending_review"
+  | "more_info_required"
+  | "approved"
+  | "rejected"
+  | "published"
+  | "withdrawn"
+  | "archived";
 
 export type Database = {
   public: {
@@ -55,6 +66,7 @@ export type Database = {
           phone: string | null;
           avatar_url: string | null;
           role: UserRole;
+          account_status: AccountStatus;
           created_at: string;
           updated_at: string;
         };
@@ -64,6 +76,7 @@ export type Database = {
           phone?: string | null;
           avatar_url?: string | null;
           role?: UserRole;
+          account_status?: AccountStatus;
           created_at?: string;
           updated_at?: string;
         };
@@ -270,6 +283,7 @@ export type Database = {
           owner_contact_phone: string | null;
           owner_contact_email: string | null;
           submitted_by: string | null;
+          submission_id: string | null;
           views_count: number;
           published_at: string | null;
           created_at: string;
@@ -316,6 +330,7 @@ export type Database = {
           owner_contact_phone?: string | null;
           owner_contact_email?: string | null;
           submitted_by?: string | null;
+          submission_id?: string | null;
           views_count?: number;
           published_at?: string | null;
           created_at?: string;
@@ -407,6 +422,7 @@ export type Database = {
           assigned_agent_id: string | null;
           internal_notes: string | null;
           follow_up_date: string | null;
+          submitted_by_user_id: string | null;
           created_at: string;
         };
         Insert: {
@@ -423,9 +439,56 @@ export type Database = {
           assigned_agent_id?: string | null;
           internal_notes?: string | null;
           follow_up_date?: string | null;
+          submitted_by_user_id?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["inquiries"]["Insert"]>;
+        Relationships: [];
+      };
+      lead_notes: {
+        Row: {
+          id: string;
+          inquiry_id: string;
+          author_agent_id: string;
+          note: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          inquiry_id: string;
+          author_agent_id: string;
+          note: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["lead_notes"]["Insert"]>;
+        Relationships: [];
+      };
+      property_submissions: {
+        Row: {
+          id: string;
+          submitted_by_user_id: string | null;
+          guest_name: string | null;
+          guest_phone: string | null;
+          guest_email: string | null;
+          status: SubmissionStatus;
+          assigned_agent_id: string | null;
+          admin_feedback: string | null;
+          submitted_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          submitted_by_user_id?: string | null;
+          guest_name?: string | null;
+          guest_phone?: string | null;
+          guest_email?: string | null;
+          status?: SubmissionStatus;
+          assigned_agent_id?: string | null;
+          admin_feedback?: string | null;
+          submitted_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["property_submissions"]["Insert"]>;
         Relationships: [];
       };
       favorites: {
@@ -529,6 +592,38 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: string | null;
       };
+      set_user_role: {
+        Args: { target_user_id: string; new_role: UserRole };
+        Returns: undefined;
+      };
+      admin_review_submission: {
+        Args: {
+          p_submission_id: string;
+          p_new_status: SubmissionStatus;
+          p_feedback?: string | null;
+          p_agent_id?: string | null;
+        };
+        Returns: undefined;
+      };
+      set_account_status: {
+        Args: { target_user_id: string; new_status: string };
+        Returns: undefined;
+      };
+      admin_list_users: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          id: string;
+          email: string | null;
+          full_name: string | null;
+          role: UserRole;
+          account_status: string;
+          created_at: string;
+        }[];
+      };
+      check_rate_limit: {
+        Args: { p_bucket: string; p_max_hits: number; p_window_seconds: number };
+        Returns: boolean;
+      };
     };
     Enums: {
       user_role: UserRole;
@@ -541,6 +636,7 @@ export type Database = {
       certificate_status: CertificateStatus;
       inquiry_type: InquiryType;
       inquiry_status: InquiryStatus;
+      submission_status: SubmissionStatus;
     };
   };
 };

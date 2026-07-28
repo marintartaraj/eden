@@ -3,8 +3,10 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
+import { LogoutButton } from "@/components/auth/LogoutButton";
+import type { CurrentUser } from "@/lib/auth/session";
 
-export async function Header() {
+export async function Header({ current }: { current: CurrentUser | null }) {
   const t = await getTranslations("nav");
   const common = await getTranslations("common");
 
@@ -18,6 +20,20 @@ export async function Header() {
     { href: "/about", label: t("about") },
     { href: "/contact", label: t("contact") },
   ];
+
+  const isAgentOrAdmin = current?.profile.role === "agent" || current?.profile.role === "admin";
+  const isAdmin = current?.profile.role === "admin";
+
+  const authLinks = current
+    ? [
+        ...(isAdmin ? [{ href: "/admin", label: t("adminDashboard") }] : []),
+        ...(isAgentOrAdmin ? [{ href: "/agent", label: t("agentDashboard") }] : []),
+        { href: "/account", label: t("myAccount") },
+      ]
+    : [
+        { href: "/login", label: t("login") },
+        { href: "/signup", label: t("signUp") },
+      ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
@@ -42,6 +58,24 @@ export async function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-4 lg:flex">
+            {authLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {current && (
+              <LogoutButton
+                label={t("logout")}
+                className="text-sm font-medium text-muted transition-colors hover:text-foreground"
+              />
+            )}
+          </div>
+
           <LocaleSwitcher />
           <Link
             href="/sell-property"
@@ -51,7 +85,10 @@ export async function Header() {
           </Link>
           <MobileNav
             links={links}
+            authLinks={authLinks}
+            isLoggedIn={Boolean(current)}
             sellLabel={t("sellProperty")}
+            logoutLabel={t("logout")}
             closeLabel={common("close")}
           />
         </div>

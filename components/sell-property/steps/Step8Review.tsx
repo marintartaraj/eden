@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Link } from "@/i18n/navigation";
 import { localize } from "@/lib/localize";
 import { formatArea } from "@/lib/format";
 import type { AppLocale } from "@/i18n/routing";
@@ -98,6 +99,20 @@ export function Step8Review({
         {isSubmitted && errors.agreeToTerms && (
           <p className="mt-1 text-xs text-danger">{t("confirmError")}</p>
         )}
+        <p className="mt-2 text-xs text-muted">
+          {t.rich("termsAgreement", {
+            termsLink: (chunks) => (
+              <Link href="/terms" target="_blank" className="underline hover:text-foreground">
+                {chunks}
+              </Link>
+            ),
+            privacyLink: (chunks) => (
+              <Link href="/privacy" target="_blank" className="underline hover:text-foreground">
+                {chunks}
+              </Link>
+            ),
+          })}
+        </p>
       </div>
     </div>
   );

@@ -22,3 +22,10 @@ export function formatArea(value: number, locale: AppLocale) {
   const formatted = new Intl.NumberFormat(locale === "sq" ? "sq-AL" : "en-US").format(value);
   return `${formatted} m²`;
 }
+
+export function formatDate(value: string, locale: AppLocale) {
+  return new Intl.DateTimeFormat(locale === "sq" ? "sq-AL" : "en-US", {
+    year: "numeric",
+    month: "long",
+  }).format(new Date(value));
+}

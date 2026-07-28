@@ -6,6 +6,9 @@ import { notFound } from "next/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { getCurrentUser } from "@/lib/auth/session";
+import { getFavoriteIds } from "@/lib/data/favorites";
 import "../globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -43,7 +46,8 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
+  const [messages, current] = await Promise.all([getMessages(), getCurrentUser()]);
+  const favoriteIds = current ? await getFavoriteIds(current.user.id) : [];
 
   return (
     <html
@@ -52,9 +56,11 @@ export default async function LocaleLayout({
     >
       <body className="flex min-h-full flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <AuthProvider user={current ? { id: current.user.id } : null} initialFavoriteIds={favoriteIds}>
+            <Header current={current} />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

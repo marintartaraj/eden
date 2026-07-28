@@ -23,6 +23,8 @@ import {
 } from "@/lib/validations/property-submission";
 import { submitPropertyListing } from "@/lib/actions/property-submission";
 import type { Database } from "@/types/supabase";
+import { HoneypotField } from "@/components/ui/HoneypotField";
+import { TurnstileWidget } from "@/components/ui/TurnstileWidget";
 
 type CityRow = Database["public"]["Tables"]["cities"]["Row"];
 type NeighborhoodRow = Database["public"]["Tables"]["neighborhoods"]["Row"];
@@ -52,6 +54,7 @@ export function SellPropertyForm({
     "idle",
   );
   const [submissionId] = useState(() => crypto.randomUUID());
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const methods = useForm<PropertySubmissionInput, unknown, PropertySubmissionOutput>({
     resolver: zodResolver(propertySubmissionSchema),
@@ -62,6 +65,7 @@ export function SellPropertyForm({
       hasParking: false,
       photos: [],
       agreeToTerms: false,
+      honeypot: "",
     },
   });
 
@@ -78,7 +82,7 @@ export function SellPropertyForm({
 
   async function onSubmit(values: PropertySubmissionOutput) {
     setSubmitState("submitting");
-    const result = await submitPropertyListing(values);
+    const result = await submitPropertyListing(values, turnstileToken);
     setSubmitState(result.success ? "success" : "error");
   }
 
@@ -113,6 +117,13 @@ export function SellPropertyForm({
       <StepIndicator current={step} total={TOTAL_STEPS} label={t(`steps.${STEP_KEYS[step]}`)} />
       <form onSubmit={methods.handleSubmit(onSubmit)} className="mt-8">
         {steps[step]}
+
+        <HoneypotField register={methods.register} name="honeypot" />
+        {step === TOTAL_STEPS - 1 && (
+          <div className="mt-4">
+            <TurnstileWidget onVerify={setTurnstileToken} />
+          </div>
+        )}
 
         {submitState === "error" && (
           <p className="mt-4 text-sm text-danger">{t("submitError")}</p>

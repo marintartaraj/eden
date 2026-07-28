@@ -3,16 +3,23 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 type NavLink = { href: string; label: string };
 
 export function MobileNav({
   links,
+  authLinks,
+  isLoggedIn,
   sellLabel,
+  logoutLabel,
   closeLabel,
 }: {
   links: NavLink[];
+  authLinks: NavLink[];
+  isLoggedIn: boolean;
   sellLabel: string;
+  logoutLabel: string;
   closeLabel: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -54,6 +61,27 @@ export function MobileNav({
                 {link.label}
               </Link>
             ))}
+
+            <div className="my-2 border-t border-border" />
+
+            {authLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-3 text-base font-medium text-foreground hover:bg-border/40"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {isLoggedIn && (
+              <LogoutButton
+                label={logoutLabel}
+                onBeforeSignOut={() => setOpen(false)}
+                className="rounded-lg px-3 py-3 text-left text-base font-medium text-foreground hover:bg-border/40"
+              />
+            )}
+
             <Link
               href="/sell-property"
               onClick={() => setOpen(false)}

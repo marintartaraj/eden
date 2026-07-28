@@ -9,10 +9,13 @@ import { Input } from "@/components/ui/Input";
 import { inquirySchema, type InquiryFormValues } from "@/lib/validations/inquiry";
 import { submitInquiry } from "@/lib/actions/inquiry";
 import { cn } from "@/lib/utils";
+import { HoneypotField } from "@/components/ui/HoneypotField";
+import { TurnstileWidget } from "@/components/ui/TurnstileWidget";
 
 export function InquiryForm({ propertyId }: { propertyId: string }) {
   const t = useTranslations("detail.inquiry");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const {
     register,
@@ -30,6 +33,7 @@ export function InquiryForm({ propertyId }: { propertyId: string }) {
       message: "",
       preferredDate: "",
       preferredTime: "",
+      honeypot: "",
     },
   });
 
@@ -37,10 +41,10 @@ export function InquiryForm({ propertyId }: { propertyId: string }) {
 
   async function onSubmit(values: InquiryFormValues) {
     setStatus("idle");
-    const result = await submitInquiry(propertyId, values);
+    const result = await submitInquiry(propertyId, values, turnstileToken);
     if (result.success) {
       setStatus("success");
-      reset({ type: values.type, name: "", email: "", phone: "", message: "", preferredDate: "", preferredTime: "" });
+      reset({ type: values.type, name: "", email: "", phone: "", message: "", preferredDate: "", preferredTime: "", honeypot: "" });
     } else {
       setStatus("error");
     }
@@ -115,6 +119,9 @@ export function InquiryForm({ propertyId }: { propertyId: string }) {
         {...register("message")}
         className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
       />
+
+      <HoneypotField register={register} name="honeypot" />
+      <TurnstileWidget onVerify={setTurnstileToken} />
 
       {status === "error" && <p className="text-xs text-danger">{t("errorMessage")}</p>}
 

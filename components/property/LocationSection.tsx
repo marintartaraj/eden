@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import type { PropertyDetail } from "@/lib/data/properties";
 import type { AppLocale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { resolveCoordinates } from "@/lib/city-coordinates";
+import { PropertyMap } from "@/components/property/PropertyMap";
 
 export async function LocationSection({
   property,
@@ -19,6 +21,7 @@ export async function LocationSection({
     ? localize(property.neighborhood.name_sq, property.neighborhood.name_en, locale)
     : null;
   const location = [property.address_line, neighborhoodName, cityName].filter(Boolean).join(", ");
+  const coordinates = resolveCoordinates(property.lat, property.lng, property.city?.slug);
 
   return (
     <section>
@@ -30,10 +33,22 @@ export async function LocationSection({
             {location}
           </p>
         )}
-        <div className="flex flex-col items-center gap-2 rounded-xl bg-background px-6 py-12 text-center">
-          <MapPin className="h-6 w-6 text-muted" />
-          <p className="text-sm text-muted">{t("mapComingSoon")}</p>
-        </div>
+        {coordinates ? (
+          <>
+            <PropertyMap
+              markers={[{ lat: coordinates.lat, lng: coordinates.lng }]}
+              className="h-72 w-full overflow-hidden rounded-xl"
+            />
+            {!coordinates.precise && (
+              <p className="text-xs text-muted">{t("mapApproximate")}</p>
+            )}
+          </>
+        ) : (
+          <div className="flex flex-col items-center gap-2 rounded-xl bg-background px-6 py-12 text-center">
+            <MapPin className="h-6 w-6 text-muted" />
+            <p className="text-sm text-muted">{t("mapComingSoon")}</p>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -15,10 +15,22 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const agent = await getAgentBySlug(slug);
   if (!agent) return {};
-  return { title: agent.full_name };
+
+  const appLocale = locale as AppLocale;
+  const description = localize(agent.bio_sq ?? "", agent.bio_en, appLocale);
+
+  return {
+    title: agent.full_name,
+    description: description || undefined,
+    openGraph: {
+      title: agent.full_name,
+      description: description || undefined,
+      images: agent.photo_url ? [{ url: agent.photo_url }] : undefined,
+    },
+  };
 }
 
 export default async function AgentProfilePage({

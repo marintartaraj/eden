@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { PropertyCardClient } from "./PropertyCardClient";
 import type { PropertyListItem } from "@/lib/data/properties";
 import type { AppLocale } from "@/i18n/routing";
@@ -11,7 +12,9 @@ import type { AppLocale } from "@/i18n/routing";
 export function FavoritesGrid({ locale }: { locale: AppLocale }) {
   const t = useTranslations("favorites");
   const commonT = useTranslations("common");
-  const { favorites } = useFavorites();
+  const local = useFavorites();
+  const auth = useAuth();
+  const favorites = auth.user ? Array.from(auth.favoriteIds) : local.favorites;
   const [fetched, setFetched] = useState<PropertyListItem[] | null>(null);
 
   useEffect(() => {

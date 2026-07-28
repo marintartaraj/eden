@@ -20,6 +20,7 @@ import { RecentlyViewedSection } from "@/components/property/RecentlyViewedSecti
 import { getPropertyBySlug, getSimilarProperties } from "@/lib/data/properties";
 import { localize } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import { publicEnv } from "@/lib/env";
 import type { AppLocale } from "@/i18n/routing";
 
 export async function generateMetadata({
@@ -34,8 +35,17 @@ export async function generateMetadata({
   const appLocale = locale as AppLocale;
   const title = localize(property.title_sq, property.title_en, appLocale);
   const description = localize(property.description_sq ?? "", property.description_en, appLocale);
+  const cover = property.images.find((img) => img.isCover) ?? property.images[0];
 
-  return { title, description: description || undefined };
+  return {
+    title,
+    description: description || undefined,
+    openGraph: {
+      title,
+      description: description || undefined,
+      images: cover ? [{ url: cover.url }] : undefined,
+    },
+  };
 }
 
 export default async function PropertyDetailPage({
@@ -67,8 +77,34 @@ export default async function PropertyDetailPage({
   const location = [neighborhoodName, cityName].filter(Boolean).join(", ");
   const coverImage = property.images.find((img) => img.isCover) ?? property.images[0];
 
+  const baseUrl = publicEnv.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: title,
+    description: description || undefined,
+    url: `${baseUrl}/${appLocale === "en" ? "en/" : ""}properties/${property.slug}`,
+    image: coverImage ? [coverImage.url] : undefined,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: property.address_line ?? undefined,
+      addressLocality: cityName ?? undefined,
+      addressCountry: "AL",
+    },
+    offers: {
+      "@type": "Offer",
+      price: property.price,
+      priceCurrency: property.currency,
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
     <Container className="py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <RecentlyViewedTracker
         item={{
           id: property.id,

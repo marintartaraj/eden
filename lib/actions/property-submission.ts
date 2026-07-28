@@ -6,24 +6,26 @@ import {
   propertySubmissionSchema,
   type PropertySubmissionOutput,
 } from "@/lib/validations/property-submission";
+import { slugify, randomSuffix } from "@/lib/slug";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { geocodeAddress } from "@/lib/geocode";
+import { sendEmail } from "@/lib/email";
+import { getAdminEmails } from "@/lib/data/admin-notifications";
 import sqMessages from "@/messages/sq.json";
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function randomSuffix(): string {
-  return Math.random().toString(36).slice(2, 8);
-}
-
-export async function submitPropertyListing(input: PropertySubmissionOutput) {
+export async function submitPropertyListing(
+  input: PropertySubmissionOutput,
+  turnstileToken?: string,
+) {
   const parsed = propertySubmissionSchema.safeParse(input);
   if (!parsed.success) return { success: false as const };
+
+  const allowed = await checkRateLimit("property-submission", 3, 3600);
+  if (!allowed) return { success: false as const };
+
+  const humanVerified = await verifyTurnstileToken(turnstileToken);
+  if (!humanVerified) return { success: false as const };
 
   const data = parsed.data;
 
@@ -43,52 +45,94 @@ export async function submitPropertyListing(input: PropertySubmissionOutput) {
   const slug = `${slugify(data.propertyType)}-${slugify(city.slug)}-${randomSuffix()}`;
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const { data: property, error } = await supabase
-    .from("properties")
-    .insert({
-      slug,
-      purpose: data.purpose,
-      property_type: data.propertyType,
-      status: "pending",
-      source: "owner_submission",
-      title_sq: titleSq,
-      price: data.price,
-      currency: "EUR",
-      price_period: data.purpose === "rent" ? "month" : null,
-      city_id: city.id,
-      neighborhood_id: neighborhood?.id ?? null,
-      address_line: data.addressLine || null,
-      gross_area: data.grossArea,
-      net_area: data.netArea ?? null,
-      bedrooms: data.bedrooms ?? null,
-      bathrooms: data.bathrooms ?? null,
-      floor: data.floor ?? null,
-      total_floors: data.totalFloors ?? null,
-      furnishing: data.furnishing ?? null,
-      has_elevator: data.hasElevator ?? false,
-      has_parking: data.hasParking ?? false,
-      construction_condition: data.constructionCondition ?? null,
-      construction_year: data.constructionYear ?? null,
-      certificate_status: data.certificateStatus ?? null,
-      owner_contact_name: data.ownerName,
-      owner_contact_phone: data.ownerPhone,
-      owner_contact_email: data.ownerEmail,
-    })
-    .select("id")
-    .single();
+  // IDs are generated here rather than read back from the insert (no
+  // `.select()`/representation requested) because a guest submission is
+  // intentionally unreadable by its own anonymous submitter under RLS
+  // (`submitted_by_user_id is null` can never match `= auth.uid()`) — asking
+  // PostgREST for a representation it can't return under RLS fails the
+  // whole request, even though the insert's own check passed.
+  const submissionId = crypto.randomUUID();
+  const propertyId = crypto.randomUUID();
 
-  if (error || !property) return { success: false as const };
+  const { error: submissionError } = await supabase.from("property_submissions").insert({
+    id: submissionId,
+    submitted_by_user_id: user?.id ?? null,
+    guest_name: user ? null : data.ownerName,
+    guest_phone: user ? null : data.ownerPhone,
+    guest_email: user ? null : data.ownerEmail,
+    status: "submitted",
+  });
+
+  if (submissionError) return { success: false as const };
+
+  const geocodeQuery = [data.addressLine, neighborhood?.name_sq, city.name_sq, "Albania"]
+    .filter(Boolean)
+    .join(", ");
+  const coordinates = await geocodeAddress(geocodeQuery);
+
+  const { error } = await supabase.from("properties").insert({
+    id: propertyId,
+    slug,
+    purpose: data.purpose,
+    property_type: data.propertyType,
+    status: "draft",
+    source: "owner_submission",
+    submission_id: submissionId,
+    submitted_by: user?.id ?? null,
+    title_sq: titleSq,
+    price: data.price,
+    currency: "EUR",
+    price_period: data.purpose === "rent" ? "month" : null,
+    city_id: city.id,
+    neighborhood_id: neighborhood?.id ?? null,
+    address_line: data.addressLine || null,
+    lat: coordinates?.lat ?? null,
+    lng: coordinates?.lng ?? null,
+    gross_area: data.grossArea,
+    net_area: data.netArea ?? null,
+    bedrooms: data.bedrooms ?? null,
+    bathrooms: data.bathrooms ?? null,
+    floor: data.floor ?? null,
+    total_floors: data.totalFloors ?? null,
+    furnishing: data.furnishing ?? null,
+    has_elevator: data.hasElevator ?? false,
+    has_parking: data.hasParking ?? false,
+    construction_condition: data.constructionCondition ?? null,
+    construction_year: data.constructionYear ?? null,
+    certificate_status: data.certificateStatus ?? null,
+    owner_contact_name: data.ownerName,
+    owner_contact_phone: data.ownerPhone,
+    owner_contact_email: data.ownerEmail,
+  });
+
+  if (error) return { success: false as const };
 
   if (data.photos.length > 0) {
     await supabase.from("property_images").insert(
       data.photos.map((url, index) => ({
-        property_id: property.id,
+        property_id: propertyId,
         url,
         sort_order: index,
         is_cover: index === 0,
       })),
     );
+  }
+
+  const adminEmails = await getAdminEmails();
+  if (adminEmails.length > 0) {
+    await sendEmail({
+      to: adminEmails,
+      subject: `New property submission: ${titleSq}`,
+      html: `
+        <p>A new property was submitted for review: <strong>${titleSq}</strong>.</p>
+        <p>Submitted by: ${data.ownerName} (${data.ownerEmail}, ${data.ownerPhone})</p>
+        <p>Price: €${data.price}</p>
+      `,
+    });
   }
 
   return { success: true as const };
