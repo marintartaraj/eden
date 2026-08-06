@@ -1,12 +1,12 @@
 import "server-only";
 import { z } from "zod";
-import { publicEnv } from "@/lib/env";
+import { publicEnv, emptyToUndefined } from "@/lib/env";
 
 const serverEnvSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
-  TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
-  RESEND_API_KEY: z.string().min(1).optional(),
-  RESEND_FROM_EMAIL: z.string().email().optional(),
+  TURNSTILE_SECRET_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  RESEND_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  RESEND_FROM_EMAIL: z.preprocess(emptyToUndefined, z.string().email().optional()),
 });
 
 export const serverEnv = serverEnvSchema.parse({

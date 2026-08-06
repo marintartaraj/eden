@@ -1,20 +1,17 @@
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { PropertyGrid } from "@/components/property/PropertyGrid";
-import { PropertyList } from "@/components/property/PropertyList";
-import { PropertyMap, type PropertyMapMarker } from "@/components/property/PropertyMap";
 import { SortSelect } from "@/components/property/SortSelect";
 import { ViewToggle } from "@/components/property/ViewToggle";
-import { Pagination } from "@/components/property/Pagination";
+import { ViewModeRestorer } from "@/components/property/ViewModeRestorer";
 import { FilterPanel } from "@/components/property/FilterPanel";
 import { FilterSheetTrigger } from "@/components/property/FilterSheetTrigger";
+import { ActiveFilterChips } from "@/components/property/ActiveFilterChips";
+import { PropertyResultsContent } from "@/components/property/PropertyResultsContent";
+import { PropertyResultsSkeleton } from "@/components/property/PropertyResultsSkeleton";
 import { SaveSearchButton } from "@/components/account/SaveSearchButton";
 import { getCities, getNeighborhoods } from "@/lib/data/locations";
-import { searchProperties, DEFAULT_PAGE_SIZE } from "@/lib/data/properties";
-import { parsePropertiesSearchParams, toFilters } from "@/lib/filters/property-filters";
-import { resolveCoordinates } from "@/lib/city-coordinates";
-import { localize } from "@/lib/localize";
-import { getPathname } from "@/i18n/navigation";
+import { parsePropertiesSearchParams } from "@/lib/filters/property-filters";
 import type { AppLocale } from "@/i18n/routing";
 
 export async function PropertiesResults({
@@ -31,17 +28,12 @@ export async function PropertiesResults({
   const query = parsePropertiesSearchParams(searchParams);
   if (forcedPurpose) query.purpose = forcedPurpose;
 
-  const [resultsT, viewT, commonT, cities, neighborhoods, result] = await Promise.all([
+  const [resultsT, viewT, commonT, cities, neighborhoods] = await Promise.all([
     getTranslations("results"),
     getTranslations("view"),
     getTranslations("common"),
     getCities(),
     getNeighborhoods(),
-    searchProperties(toFilters(query), {
-      page: query.page,
-      sort: query.sort,
-      pageSize: DEFAULT_PAGE_SIZE,
-    }),
   ]);
 
   const title =
@@ -51,31 +43,15 @@ export async function PropertiesResults({
         ? resultsT("forRentTitle")
         : resultsT("title");
 
-  const showPagination = query.view !== "map";
-
-  const mapMarkers: PropertyMapMarker[] =
-    query.view === "map"
-      ? result.items.reduce<PropertyMapMarker[]>((markers, property) => {
-          const coordinates = resolveCoordinates(property.lat, property.lng, property.city?.slug);
-          if (!coordinates) return markers;
-          markers.push({
-            lat: coordinates.lat,
-            lng: coordinates.lng,
-            label: localize(property.title_sq, property.title_en, locale),
-            href: getPathname({ href: `/properties/${property.slug}`, locale }),
-          });
-          return markers;
-        }, [])
-      : [];
-
   return (
     <Container className="py-8 sm:py-12">
+      <ViewModeRestorer basePath={basePath} />
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-serif text-2xl text-foreground sm:text-3xl">{title}</h1>
-          <p className="mt-1 text-sm text-muted">{resultsT("count", { count: result.total })}</p>
+          <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <FilterSheetTrigger
             cities={cities}
             neighborhoods={neighborhoods}
@@ -92,6 +68,8 @@ export async function PropertiesResults({
         </div>
       </div>
 
+      <ActiveFilterChips query={query} basePath={basePath} cities={cities} neighborhoods={neighborhoods} />
+
       <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8">
         <aside className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
@@ -106,27 +84,9 @@ export async function PropertiesResults({
         </aside>
 
         <div>
-          {query.view === "map" ? (
-            mapMarkers.length > 0 ? (
-              <PropertyMap markers={mapMarkers} className="h-[60vh] w-full overflow-hidden rounded-2xl" />
-            ) : (
-              <div className="rounded-2xl border border-border bg-card px-6 py-24 text-center text-muted">
-                {resultsT("empty")}
-              </div>
-            )
-          ) : result.items.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card px-6 py-24 text-center text-muted">
-              {resultsT("empty")}
-            </div>
-          ) : query.view === "list" ? (
-            <PropertyList properties={result.items} locale={locale} priorityCount={2} />
-          ) : (
-            <PropertyGrid properties={result.items} locale={locale} priorityCount={3} />
-          )}
-
-          {showPagination && result.items.length > 0 && (
-            <Pagination query={query} pageCount={result.pageCount} basePath={basePath} />
-          )}
+          <Suspense key={JSON.stringify(query)} fallback={<PropertyResultsSkeleton />}>
+            <PropertyResultsContent query={query} locale={locale} basePath={basePath} />
+          </Suspense>
         </div>
       </div>
     </Container>

@@ -21,6 +21,7 @@ export async function BrowseByCity({ locale }: { locale: AppLocale }) {
           <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
             {t("browseCityTitle")}
           </h2>
+          <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
           <p className="mt-2 text-muted">{t("browseCitySubtitle")}</p>
         </div>
 
@@ -31,13 +32,17 @@ export async function BrowseByCity({ locale }: { locale: AppLocale }) {
               href={`/properties?city=${city.slug}`}
               className="group relative aspect-[4/3] overflow-hidden rounded-2xl"
             >
-              <Image
-                src={`https://picsum.photos/seed/city-${city.slug}/600/450`}
-                alt={localize(city.name_sq, city.name_en, locale)}
-                fill
-                sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
+              {city.imageUrl ? (
+                <Image
+                  src={city.imageUrl}
+                  alt={localize(city.name_sq, city.name_en, locale)}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 to-border" />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               <div className="absolute bottom-0 left-0 p-4 text-white">
                 <p className="font-serif text-lg">{localize(city.name_sq, city.name_en, locale)}</p>

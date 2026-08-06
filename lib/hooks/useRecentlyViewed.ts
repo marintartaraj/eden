@@ -46,7 +46,11 @@ function subscribe(callback: () => void) {
 }
 
 function getSnapshot() {
-  return window.localStorage.getItem(STORAGE_KEY) ?? "[]";
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
 }
 
 function getServerSnapshot() {
@@ -70,7 +74,13 @@ export function useRecentlyViewed() {
       { ...item, viewedAt: Date.now() },
       ...current.filter((i) => i.id !== item.id),
     ].slice(0, MAX_ITEMS);
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      // Storage unavailable (private browsing, quota exceeded, disabled) —
+      // failing silently beats throwing out of a passive tracking effect.
+      return;
+    }
     window.dispatchEvent(new Event(CHANGE_EVENT));
   }, []);
 

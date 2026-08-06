@@ -39,9 +39,12 @@ export async function PropertyTypeShortcuts() {
   return (
     <section className="py-16">
       <Container>
-        <h2 className="mb-8 font-serif text-2xl text-foreground sm:text-3xl">
-          {t("home.typesTitle")}
-        </h2>
+        <div className="mb-8">
+          <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
+            {t("home.typesTitle")}
+          </h2>
+          <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
+        </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {PROPERTY_TYPES.map((type) => {
             const Icon = ICONS[type];

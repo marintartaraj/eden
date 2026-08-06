@@ -3,7 +3,8 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
-import { LogoutButton } from "@/components/auth/LogoutButton";
+import { AccountMenu } from "./AccountMenu";
+import { HeaderNavLinks } from "./HeaderNavLinks";
 import type { CurrentUser } from "@/lib/auth/session";
 
 export async function Header({ current }: { current: CurrentUser | null }) {
@@ -45,36 +46,35 @@ export async function Header({ current }: { current: CurrentUser | null }) {
           Eden
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <HeaderNavLinks links={links} />
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-4 lg:flex">
-            {authLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
-            {current && (
-              <LogoutButton
-                label={t("logout")}
-                className="text-sm font-medium text-muted transition-colors hover:text-foreground"
-              />
-            )}
-          </div>
+          {/*
+            Role/account links (My Account, Admin/Agent Dashboard, Log Out)
+            collapse into a single dropdown for authenticated users instead
+            of sitting as flat top-level items — that flat-item approach is
+            what made this row wrap onto two lines for admin/agent accounts
+            even at 1920px (the item count grew with role, the row didn't).
+            Logged-out visitors only ever have two items (Log In/Sign Up),
+            which never overflows, so those stay as plain links.
+          */}
+          {current ? (
+            <div className="hidden lg:block">
+              <AccountMenu menuLabel={t("accountMenu")} links={authLinks} logoutLabel={t("logout")} />
+            </div>
+          ) : (
+            <div className="hidden items-center gap-4 lg:flex">
+              {authLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium text-muted transition-colors hover:text-foreground"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          )}
 
           <LocaleSwitcher />
           <Link
@@ -89,6 +89,7 @@ export async function Header({ current }: { current: CurrentUser | null }) {
             isLoggedIn={Boolean(current)}
             sellLabel={t("sellProperty")}
             logoutLabel={t("logout")}
+            menuLabel={common("menu")}
             closeLabel={common("close")}
           />
         </div>

@@ -32,38 +32,45 @@ export function Step3Characteristics() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">
-            {t("grossArea")}
+            {t("grossArea")} <span className="text-danger">*</span>
           </label>
-          <Input type="number" min={0} step="0.1" {...register("grossArea")} />
+          <Input
+            type="number"
+            inputMode="decimal"
+            min={0}
+            step="0.1"
+            aria-required="true"
+            {...register("grossArea")}
+          />
           {errors.grossArea && (
             <p className="mt-1 text-xs text-danger">{t("grossAreaError")}</p>
           )}
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">{t("netArea")}</label>
-          <Input type="number" min={0} step="0.1" {...register("netArea")} />
+          <Input type="number" inputMode="decimal" min={0} step="0.1" {...register("netArea")} />
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">
             {t("bedrooms")}
           </label>
-          <Input type="number" min={0} step="1" {...register("bedrooms")} />
+          <Input type="number" inputMode="numeric" min={0} step="1" {...register("bedrooms")} />
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">
             {t("bathrooms")}
           </label>
-          <Input type="number" min={0} step="1" {...register("bathrooms")} />
+          <Input type="number" inputMode="numeric" min={0} step="1" {...register("bathrooms")} />
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">{t("floor")}</label>
-          <Input type="number" step="1" {...register("floor")} />
+          <Input type="number" inputMode="numeric" step="1" {...register("floor")} />
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-foreground">
             {t("totalFloors")}
           </label>
-          <Input type="number" min={0} step="1" {...register("totalFloors")} />
+          <Input type="number" inputMode="numeric" min={0} step="1" {...register("totalFloors")} />
         </div>
       </div>
 

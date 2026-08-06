@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { buildHref, type PropertiesQuery } from "@/lib/filters/property-filters";
-import { cn } from "@/lib/utils";
+import { cn, FOCUS_RING } from "@/lib/utils";
 
 function getPageNumbers(current: number, total: number): (number | "ellipsis")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -41,17 +41,25 @@ export async function Pagination({
 
   return (
     <nav className="mt-10 flex items-center justify-center gap-2" aria-label={t("page", { page: current, total: pageCount })}>
-      <Link
-        href={buildHref(basePath, query, { page: Math.max(1, current - 1) })}
-        aria-label={t("previous")}
-        aria-disabled={current === 1}
-        className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-accent",
-          current === 1 && "pointer-events-none opacity-40",
-        )}
-      >
-        <ChevronLeft className="h-4 w-4" />
-      </Link>
+      {current === 1 ? (
+        <span
+          aria-hidden="true"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground opacity-40"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </span>
+      ) : (
+        <Link
+          href={buildHref(basePath, query, { page: current - 1 })}
+          aria-label={t("previous")}
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-accent",
+            FOCUS_RING,
+          )}
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Link>
+      )}
 
       {pages.map((p, i) =>
         p === "ellipsis" ? (
@@ -62,9 +70,10 @@ export async function Pagination({
           <Link
             key={p}
             href={buildHref(basePath, query, { page: p })}
-            aria-current={p === current}
+            aria-current={p === current ? "page" : undefined}
             className={cn(
               "flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium transition-colors",
+              FOCUS_RING,
               p === current
                 ? "bg-accent text-accent-foreground"
                 : "text-foreground hover:bg-border/40",
@@ -75,17 +84,25 @@ export async function Pagination({
         ),
       )}
 
-      <Link
-        href={buildHref(basePath, query, { page: Math.min(pageCount, current + 1) })}
-        aria-label={t("next")}
-        aria-disabled={current === pageCount}
-        className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-accent",
-          current === pageCount && "pointer-events-none opacity-40",
-        )}
-      >
-        <ChevronRight className="h-4 w-4" />
-      </Link>
+      {current === pageCount ? (
+        <span
+          aria-hidden="true"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground opacity-40"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </span>
+      ) : (
+        <Link
+          href={buildHref(basePath, query, { page: current + 1 })}
+          aria-label={t("next")}
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-accent",
+            FOCUS_RING,
+          )}
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+      )}
     </nav>
   );
 }

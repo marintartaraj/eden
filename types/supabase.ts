@@ -624,6 +624,10 @@ export type Database = {
         Args: { p_bucket: string; p_max_hits: number; p_window_seconds: number };
         Returns: boolean;
       };
+      reserve_submission_upload_token: {
+        Args: { p_ip: string };
+        Returns: string;
+      };
     };
     Enums: {
       user_role: UserRole;

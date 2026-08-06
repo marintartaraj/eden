@@ -24,7 +24,11 @@ function subscribe(callback: () => void) {
 }
 
 function getSnapshot() {
-  return window.localStorage.getItem(STORAGE_KEY) ?? "[]";
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
 }
 
 function getServerSnapshot() {
@@ -49,12 +53,23 @@ export function useFavorites() {
     const next = current.includes(id)
       ? current.filter((f) => f !== id)
       : [...current, id];
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      // Storage unavailable (private browsing, quota exceeded, disabled) —
+      // the toggle just won't persist; failing silently beats throwing out
+      // of a click handler with no user-facing fallback.
+      return;
+    }
     window.dispatchEvent(new Event(CHANGE_EVENT));
   }, []);
 
   const clearFavorites = useCallback(() => {
-    window.localStorage.removeItem(STORAGE_KEY);
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      return;
+    }
     window.dispatchEvent(new Event(CHANGE_EVENT));
   }, []);
 

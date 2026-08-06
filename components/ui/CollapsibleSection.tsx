@@ -30,11 +30,18 @@ export function CollapsibleSection({
           className={cn("h-4 w-4 text-muted transition-transform", open && "rotate-180")}
         />
       </button>
-      {open && (
-        <div id={contentId} className="mt-4">
-          {children}
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-200 ease-in-out motion-reduce:transition-none",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+      >
+        <div className="overflow-hidden">
+          <div id={contentId} className="mt-4">
+            {children}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

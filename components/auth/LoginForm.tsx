@@ -1,19 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { signInSchema, type SignInValues } from "@/lib/validations/auth";
 import { signIn } from "@/lib/actions/auth";
 
 export function LoginForm({ redirectTo }: { redirectTo: string }) {
   const t = useTranslations("auth");
+  const common = useTranslations("common");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
+  const emailId = useId();
+  const passwordId = useId();
 
   const {
     register,
@@ -41,12 +45,31 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
       className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
     >
       <div>
-        <Input type="email" placeholder={t("emailPlaceholder")} {...register("email")} />
+        <label htmlFor={emailId} className="mb-1.5 block text-sm font-medium text-foreground">
+          {t("emailPlaceholder")}
+        </label>
+        <Input
+          id={emailId}
+          type="email"
+          autoComplete="email"
+          placeholder={t("emailPlaceholder")}
+          {...register("email")}
+        />
         {errors.email && <p className="mt-1 text-xs text-danger">{t("emailError")}</p>}
       </div>
 
       <div>
-        <Input type="password" placeholder={t("passwordPlaceholder")} {...register("password")} />
+        <label htmlFor={passwordId} className="mb-1.5 block text-sm font-medium text-foreground">
+          {t("passwordPlaceholder")}
+        </label>
+        <PasswordInput
+          id={passwordId}
+          autoComplete="current-password"
+          placeholder={t("passwordPlaceholder")}
+          showLabel={common("showPassword")}
+          hideLabel={common("hidePassword")}
+          {...register("password")}
+        />
         {errors.password && <p className="mt-1 text-xs text-danger">{t("passwordError")}</p>}
       </div>
 

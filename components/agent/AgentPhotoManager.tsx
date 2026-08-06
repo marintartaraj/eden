@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { pathFromPublicUrl } from "@/lib/storage-path";
 import { cn } from "@/lib/utils";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 type PropertyImage = { id: string; url: string; is_cover: boolean; sort_order: number };
 
@@ -22,9 +23,12 @@ export function AgentPhotoManager({
   initialImages: PropertyImage[];
 }) {
   const t = useTranslations("agentProperties.media");
+  const commonT = useTranslations("common");
   const [images, setImages] = useState(initialImages);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingRemove, setPendingRemove] = useState<PropertyImage | null>(null);
+  const [removing, setRemoving] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function refresh() {
@@ -78,11 +82,14 @@ export function AgentPhotoManager({
   }
 
   async function handleRemove(image: PropertyImage) {
+    setRemoving(true);
     const supabase = createClient();
     const path = pathFromPublicUrl(image.url, BUCKET);
     await supabase.from("property_images").delete().eq("id", image.id);
     if (path) await supabase.storage.from(BUCKET).remove([path]);
     await refresh();
+    setRemoving(false);
+    setPendingRemove(null);
   }
 
   async function handleMove(index: number, direction: -1 | 1) {
@@ -145,7 +152,7 @@ export function AgentPhotoManager({
               <div className="absolute right-1 top-1 flex gap-1">
                 <button
                   type="button"
-                  onClick={() => handleRemove(image)}
+                  onClick={() => setPendingRemove(image)}
                   aria-label={t("remove")}
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white"
                 >
@@ -186,6 +193,18 @@ export function AgentPhotoManager({
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingRemove !== null}
+        title={t("confirmRemovePhotoTitle")}
+        description={t("confirmRemovePhotoBody")}
+        confirmLabel={t("confirmRemovePhotoButton")}
+        cancelLabel={commonT("cancel")}
+        destructive
+        pending={removing}
+        onConfirm={() => pendingRemove && handleRemove(pendingRemove)}
+        onCancel={() => setPendingRemove(null)}
+      />
     </div>
   );
 }

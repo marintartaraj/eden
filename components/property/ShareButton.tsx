@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Share2, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn, FOCUS_RING } from "@/lib/utils";
 
 export function ShareButton({ title }: { title: string }) {
   const t = useTranslations("detail");
@@ -27,7 +28,10 @@ export function ShareButton({ title }: { title: string }) {
     <button
       type="button"
       onClick={handleShare}
-      className="flex h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-accent"
+      className={cn(
+        "flex h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-accent",
+        FOCUS_RING,
+      )}
     >
       {copied ? <Check className="h-4 w-4 text-accent" /> : <Share2 className="h-4 w-4" />}
       {copied ? t("linkCopied") : t("share")}

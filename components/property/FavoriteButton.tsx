@@ -3,7 +3,7 @@
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { cn } from "@/lib/utils";
+import { cn, FOCUS_RING } from "@/lib/utils";
 
 export function FavoriteButton({
   propertyId,
@@ -32,7 +32,8 @@ export function FavoriteButton({
         }
       }}
       className={cn(
-        "flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur transition-colors hover:text-danger",
+        "flex h-11 w-11 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur transition-colors hover:text-danger",
+        FOCUS_RING,
         active && "text-danger",
       )}
     >

@@ -47,7 +47,7 @@ export function Step2TypeLocation({
 
       <div>
         <label className="mb-2 block text-sm font-medium text-foreground">
-          {t("propertyType")}
+          {t("propertyType")} <span className="text-danger">*</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {PROPERTY_TYPES.map((type) => (
@@ -67,9 +67,12 @@ export function Step2TypeLocation({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">{t("city")}</label>
+          <label className="mb-2 block text-sm font-medium text-foreground">
+            {t("city")} <span className="text-danger">*</span>
+          </label>
           <Select
             {...register("city")}
+            aria-required="true"
             onChange={(event) => {
               setValue("city", event.target.value, { shouldValidate: true });
               setValue("neighborhood", undefined);

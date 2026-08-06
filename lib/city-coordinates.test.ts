@@ -22,4 +22,27 @@ describe("resolveCoordinates", () => {
     const result = resolveCoordinates(41.0, null, "tirane");
     expect(result?.precise).toBe(false);
   });
+
+  it("applies a small, deterministic offset to precise coordinates when a privacy seed is given", () => {
+    const first = resolveCoordinates(41.0, 20.0, "tirane", "property-123");
+    const second = resolveCoordinates(41.0, 20.0, "tirane", "property-123");
+    const third = resolveCoordinates(41.0, 20.0, "tirane", "property-456");
+
+    expect(first?.precise).toBe(true);
+    // Never the exact input — some offset was actually applied.
+    expect(first?.lat).not.toBe(41.0);
+    expect(first?.lng).not.toBe(20.0);
+    // Deterministic: the same property always gets the same fuzzed point.
+    expect(first).toEqual(second);
+    // Different properties get different offsets, not the same shift.
+    expect(first).not.toEqual(third);
+    // The offset is small (well under 1km, i.e. under ~0.01 degrees).
+    expect(Math.abs((first?.lat ?? 0) - 41.0)).toBeLessThan(0.01);
+    expect(Math.abs((first?.lng ?? 0) - 20.0)).toBeLessThan(0.01);
+  });
+
+  it("returns the exact coordinate when no privacy seed is provided (existing callers unaffected)", () => {
+    const result = resolveCoordinates(41.0, 20.0, "tirane");
+    expect(result).toEqual({ lat: 41.0, lng: 20.0, precise: true });
+  });
 });

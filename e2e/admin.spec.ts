@@ -28,12 +28,18 @@ test("logs in as admin, reaches the dashboard, and opens a submission", async ({
   await expect(page.locator("h1")).toHaveText("Admin Dashboard");
   await expect(page.getByText("Needs Review")).toBeVisible();
 
+  // A visible element only proves the DOM exists, not that hydration
+  // finished — clicking the nav link before the Link component's handler
+  // is attached falls back to nothing happening at all (no navigation, no
+  // error). Same root cause and fix as inquiry.spec.ts.
+  await page.waitForTimeout(6000);
   await page.getByRole("link", { name: "Submissions", exact: true }).click();
   await expect(page.locator("h1")).toHaveText("Submissions");
 
   const firstSubmission = page.locator('a[href*="/admin/submissions/"]').first();
   if (await firstSubmission.isVisible().catch(() => false)) {
+    await page.waitForTimeout(6000);
     await firstSubmission.click();
-    await expect(page.getByText(/^Status:/)).toBeVisible();
+    await expect(page.getByText(/^Status:/)).toBeVisible({ timeout: 30_000 });
   }
 });

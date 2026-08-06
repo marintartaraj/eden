@@ -147,7 +147,7 @@ export function Hero({
         />
 
         <div className="flex flex-col gap-2 sm:flex-row sm:col-span-2 lg:col-span-3 xl:col-span-5">
-          <Button type="submit" className="flex-1">
+          <Button type="submit" size="lg" className="min-h-12 flex-1">
             {t("hero.search")}
           </Button>
           <Button

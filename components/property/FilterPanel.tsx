@@ -56,6 +56,18 @@ export function FilterPanel({
   const router = useRouter();
 
   const [draft, setDraft] = useState<PropertiesQuery>(query);
+  // Tracks the last `query` the draft was synced to. `query` is a fresh
+  // object from the server on every navigation, so reference inequality
+  // here means "the URL's filters changed since we last synced" — this is
+  // React's documented render-phase pattern for resetting state when a
+  // prop changes. Without it, `draft` only ever reflected the query at
+  // first mount, so a param change from anywhere else (sort, view, page,
+  // browser back) left the panel showing stale, already-inapplicable edits.
+  const [syncedQuery, setSyncedQuery] = useState(query);
+  if (query !== syncedQuery) {
+    setSyncedQuery(query);
+    setDraft(query);
+  }
 
   const selectedCity = cities.find((c) => c.slug === draft.city);
   const availableNeighborhoods = selectedCity
@@ -63,7 +75,11 @@ export function FilterPanel({
     : [];
 
   function updatePurpose(next: "sale" | "rent") {
-    router.push(buildHref(basePath, query, { purpose: next, page: 1 }));
+    // Applies the current draft together with the new purpose (not the
+    // stale `query` prop) — otherwise switching For Sale/For Rent silently
+    // discarded whatever filters the user had already picked but not yet
+    // applied.
+    router.push(buildHref(basePath, draft, { purpose: next, page: 1 }));
   }
 
   function applyFilters() {

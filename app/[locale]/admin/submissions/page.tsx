@@ -1,9 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { SearchablePaginatedList } from "@/components/ui/SearchablePaginatedList";
 import { Link } from "@/i18n/navigation";
 import { getAllSubmissions } from "@/lib/data/admin-submissions";
 import { localize } from "@/lib/localize";
+import { submissionStatusClasses } from "@/lib/status-styles";
 import type { AppLocale } from "@/i18n/routing";
 
 const FILTERS = [
@@ -57,35 +59,40 @@ export default async function AdminSubmissionsPage({
       </div>
 
       <div className="mt-8">
-        {submissions.length === 0 ? (
-          <p className="text-sm text-muted">{t("empty")}</p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {submissions.map((submission) => (
-              <Link
-                key={submission.id}
-                href={`/admin/submissions/${submission.id}`}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
+        <SearchablePaginatedList
+          items={submissions.map((submission) => (
+            <Link
+              key={submission.id}
+              href={`/admin/submissions/${submission.id}`}
+              className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
+            >
+              <div>
+                <p className="font-medium text-foreground">
+                  {submission.property
+                    ? localize(submission.property.title_sq, submission.property.title_en, appLocale)
+                    : t("noProperty")}
+                </p>
+                <p className="text-sm text-muted">
+                  {submission.submitted_by_user_id
+                    ? t("submittedByAccount")
+                    : t("submittedByGuest", { name: submission.guest_name ?? "" })}
+                </p>
+              </div>
+              <span
+                className={`rounded-full px-3 py-1 text-xs font-medium ${submissionStatusClasses(submission.status)}`}
               >
-                <div>
-                  <p className="font-medium text-foreground">
-                    {submission.property
-                      ? localize(submission.property.title_sq, submission.property.title_en, appLocale)
-                      : t("noProperty")}
-                  </p>
-                  <p className="text-sm text-muted">
-                    {submission.submitted_by_user_id
-                      ? t("submittedByAccount")
-                      : t("submittedByGuest", { name: submission.guest_name ?? "" })}
-                  </p>
-                </div>
-                <span className="rounded-full bg-border px-3 py-1 text-xs font-medium text-foreground">
-                  {statusT(submission.status)}
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
+                {statusT(submission.status)}
+              </span>
+            </Link>
+          ))}
+          searchText={submissions.map((submission) =>
+            submission.property
+              ? localize(submission.property.title_sq, submission.property.title_en, appLocale)
+              : (submission.guest_name ?? ""),
+          )}
+          searchPlaceholder={t("searchPlaceholder")}
+          emptyMessage={t("empty")}
+        />
       </div>
     </Container>
   );

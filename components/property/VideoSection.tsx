@@ -16,6 +16,9 @@ export async function VideoSection({ videos }: { videos: PropertyDetail["videos"
           className="h-full w-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
         />
       </div>
     </section>

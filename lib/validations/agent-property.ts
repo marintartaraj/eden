@@ -5,7 +5,7 @@ import {
   CONSTRUCTION_CONDITIONS,
   CERTIFICATE_STATUSES,
 } from "@/lib/property-enums";
-import { optionalNumber } from "@/lib/validations/zod-helpers";
+import { optionalNumber, optionalEnum } from "@/lib/validations/zod-helpers";
 
 // Matches the columns the Phase 3 migration actually grants agents UPDATE
 // on for `properties.status` — 'active' (publishing) is admin-only.
@@ -40,13 +40,13 @@ export const agentPropertySchema = z.object({
   bathrooms: optionalNumber(z.coerce.number().int().min(0).max(50)),
   floor: optionalNumber(z.coerce.number().int().min(-2).max(200)),
   totalFloors: optionalNumber(z.coerce.number().int().min(0).max(200)),
-  furnishing: z.enum(FURNISHING_STATUSES).optional(),
+  furnishing: optionalEnum(z.enum(FURNISHING_STATUSES)),
   hasElevator: z.boolean().optional(),
   hasParking: z.boolean().optional(),
 
-  constructionCondition: z.enum(CONSTRUCTION_CONDITIONS).optional(),
+  constructionCondition: optionalEnum(z.enum(CONSTRUCTION_CONDITIONS)),
   constructionYear: optionalNumber(z.coerce.number().int().min(1800).max(2100)),
-  certificateStatus: z.enum(CERTIFICATE_STATUSES).optional(),
+  certificateStatus: optionalEnum(z.enum(CERTIFICATE_STATUSES)),
 });
 
 export type AgentPropertyInput = z.input<typeof agentPropertySchema>;

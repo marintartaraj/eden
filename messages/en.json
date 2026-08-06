@@ -18,6 +18,7 @@
     "login": "Log In",
     "signUp": "Sign Up",
     "myAccount": "My Account",
+    "accountMenu": "Account menu",
     "agentDashboard": "Agent Dashboard",
     "adminDashboard": "Admin Dashboard",
     "logout": "Log Out",
@@ -27,13 +28,27 @@
   "footer": {
     "rights": "All rights reserved.",
     "explore": "Explore",
-    "company": "Company"
+    "company": "Company",
+    "contactCta": "Get in Touch"
   },
   "common": {
     "language": "Language",
     "menu": "Menu",
     "close": "Close",
-    "loading": "Loading..."
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "skipToContent": "Skip to content",
+    "loggingOut": "Logging out...",
+    "noSearchResults": "No results match your search.",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "pageOf": "Page {page} of {total}",
+    "turnstile": {
+      "loading": "Loading verification...",
+      "blocked": "Our spam-verification check didn't load — this is often caused by an ad blocker or privacy extension. You can try again, or disable it for this site."
+    }
   },
   "hero": {
     "cityLabel": "City",
@@ -125,7 +140,8 @@
     "maxPlaceholder": "Max",
     "any": "Any",
     "clearAll": "Clear Filters",
-    "apply": "Apply Filters"
+    "apply": "Apply Filters",
+    "removeFilter": "Remove {filter} filter"
   },
   "sort": {
     "label": "Sort by",
@@ -173,6 +189,13 @@
     "in_process": "In Process"
   },
   "detail": {
+    "gallery": {
+      "close": "Close",
+      "previous": "Previous image",
+      "next": "Next image",
+      "imageCounter": "Image {current} of {total}",
+      "dialogLabel": "Photo gallery for {title}"
+    },
     "specifications": "Specifications",
     "specPropertyType": "Property Type",
     "specNetArea": "Net Area",
@@ -203,11 +226,15 @@
       "title": "Contact About This Property",
       "typeGeneral": "General Inquiry",
       "typeViewing": "Request a Viewing",
+      "nameLabel": "Name",
       "namePlaceholder": "Your name",
       "nameError": "Please enter your name.",
+      "emailLabel": "Email",
       "emailPlaceholder": "Your email",
       "emailError": "Please enter a valid email.",
+      "phoneLabel": "Phone",
       "phonePlaceholder": "Phone number (optional)",
+      "messageLabel": "Message",
       "messagePlaceholder": "Your message (optional)",
       "preferredDate": "Preferred date",
       "preferredTime": "Preferred time",
@@ -216,7 +243,11 @@
       "submitting": "Sending...",
       "successTitle": "Thank you!",
       "successBody": "Your request has been sent. An agent will contact you shortly.",
-      "errorMessage": "Something went wrong. Please try again."
+      "errorMessage": "Something went wrong. Please try again.",
+      "errorValidation": "Please check the fields above and try again.",
+      "errorVerification": "We couldn't verify you're human. Please try again in a moment.",
+      "errorVerificationUnavailable": "Our spam-verification check didn't load — this can happen with an ad blocker or privacy extension enabled. Please try again, or disable it for this site.",
+      "errorRateLimited": "You've sent a few of these recently — please wait a while before trying again."
     },
     "mortgage": {
       "title": "Mortgage Calculator",
@@ -240,7 +271,8 @@
   "newDevelopmentsPage": {
     "title": "New Developments",
     "subtitle": "Explore upcoming and ongoing residential projects.",
-    "empty": "No new developments available right now."
+    "empty": "No new developments available right now.",
+    "badge": "New Development"
   },
   "newDevelopmentDetail": {
     "delivery": "Delivery {date}",
@@ -327,6 +359,13 @@
     "signUp": "Sign Up",
     "signingUp": "Creating account...",
     "signupError": "Something went wrong. Please try again.",
+    "errorEmailTaken": "An account with this email already exists.",
+    "errorWeakPassword": "That password is too weak. Please choose a stronger one.",
+    "errorSamePassword": "Your new password must be different from your current one.",
+    "errorSessionExpired": "Your session has expired. Please request a new password reset link.",
+    "resetLinkInvalidTitle": "This link has expired",
+    "resetLinkInvalidBody": "Password reset links are only valid for a short time. Please request a new one.",
+    "requestNewLink": "Request a New Link",
     "haveAccount": "Already have an account?",
     "loginLink": "Log in",
     "checkEmailTitle": "Check your email",
@@ -352,11 +391,13 @@
     "navSubmissions": "Submissions",
     "importFavoritesPrompt": "Import {count} favorite(s) saved on this device into your account?",
     "importing": "Importing...",
-    "importFavorites": "Import"
+    "importFavorites": "Import",
+    "dismissImportBanner": "Dismiss"
   },
   "savedSearches": {
     "title": "Saved Searches",
     "empty": "You haven't saved any searches yet.",
+    "browseCta": "Browse Properties",
     "namePlaceholder": "Name this search",
     "save": "Save",
     "saveSearch": "Save Search",
@@ -367,6 +408,7 @@
     "title": "My Submissions",
     "detailTitle": "Submission Details",
     "empty": "You haven't submitted any properties yet.",
+    "addPropertyCta": "List Your Property",
     "untitled": "Untitled property",
     "submittedOn": "Submitted on {date}",
     "adminFeedbackLabel": "Feedback from our team",
@@ -390,18 +432,21 @@
   "inquiriesPage": {
     "title": "My Inquiries",
     "empty": "You haven't sent any inquiries yet.",
+    "browseCta": "Browse Properties",
     "generalInquiry": "General Inquiry",
     "viewProperty": "View Property"
   },
   "viewingsPage": {
     "title": "My Viewing Requests",
     "empty": "You haven't requested any viewings yet.",
+    "browseCta": "Browse Properties",
     "untitledProperty": "Property",
     "preferred": "Preferred: {date} {time}",
     "viewProperty": "View Property"
   },
   "agentDashboard": {
     "title": "Agent Dashboard",
+    "loggedInAs": "Logged in as {name}",
     "comingSoon": "Your assigned properties and leads will appear here soon.",
     "navOverview": "Overview",
     "navProperties": "Properties",
@@ -419,6 +464,7 @@
     "newProperty": "New Property",
     "editProperty": "Edit Property",
     "empty": "You have no assigned properties yet.",
+    "searchPlaceholder": "Search by title...",
     "status": {
       "draft": "Draft",
       "pending": "Pending",
@@ -484,7 +530,13 @@
       "moveUp": "Move up",
       "moveDown": "Move down",
       "setCover": "Set as cover photo",
-      "cover": "Cover"
+      "cover": "Cover",
+      "confirmRemovePhotoTitle": "Delete this photo?",
+      "confirmRemovePhotoBody": "This photo will be permanently removed from the listing. This cannot be undone.",
+      "confirmRemovePhotoButton": "Yes, Delete Photo",
+      "confirmRemoveFloorPlanTitle": "Delete this floor plan?",
+      "confirmRemoveFloorPlanBody": "This floor plan will be permanently removed from the listing. This cannot be undone.",
+      "confirmRemoveFloorPlanButton": "Yes, Delete Floor Plan"
     }
   },
   "agentLeads": {
@@ -492,6 +544,7 @@
     "viewingsTitle": "Assigned Viewings",
     "followUpsTitle": "Follow-ups",
     "empty": "No leads assigned to you yet.",
+    "searchPlaceholder": "Search by name, email, or phone...",
     "status": {
       "new": "New",
       "contacted": "Contacted",
@@ -514,6 +567,7 @@
   },
   "adminDashboard": {
     "title": "Admin Dashboard",
+    "loggedInAs": "Logged in as {name}",
     "navOverview": "Overview",
     "navSubmissions": "Submissions",
     "navProperties": "Properties",
@@ -531,6 +585,7 @@
     "title": "Properties",
     "editProperty": "Edit Property",
     "empty": "No properties found.",
+    "searchPlaceholder": "Search by title...",
     "allStatuses": "All",
     "controlsTitle": "Admin Controls",
     "agentAssign": "Assigned Agent",
@@ -542,6 +597,7 @@
     "title": "Submissions",
     "detailTitle": "Submission",
     "empty": "No submissions found.",
+    "searchPlaceholder": "Search by property title or submitter...",
     "allStatuses": "All",
     "statusLabel": "Status",
     "submittedByAccount": "Submitted by a registered user",
@@ -556,7 +612,14 @@
     "actionApprove": "Approve & Publish",
     "actionReject": "Reject",
     "saving": "Saving...",
-    "error": "Something went wrong. Please try again."
+    "error": "Something went wrong. Please try again.",
+    "feedbackRequiredError": "Please explain why this submission is being rejected — the submitter will see this note.",
+    "confirmApproveTitle": "Approve and publish this submission?",
+    "confirmApproveBody": "The property will be created and made publicly visible on the site.",
+    "confirmApproveButton": "Yes, Approve & Publish",
+    "confirmRejectTitle": "Reject this submission?",
+    "confirmRejectBody": "The submitter will be notified with your feedback. This cannot be undone.",
+    "confirmRejectButton": "Yes, Reject"
   },
   "adminLeads": {
     "assignLabel": "Assign",
@@ -565,22 +628,35 @@
   "adminUsers": {
     "title": "Users",
     "empty": "No users found.",
+    "searchPlaceholder": "Search by name or email...",
     "suspended": "Suspended",
     "suspend": "Suspend",
     "reactivate": "Reactivate",
+    "deleteAccount": "Delete Account",
+    "deleteError": "Couldn't delete this account. Please try again.",
     "roles": {
       "registered_user": "Registered User",
       "agent": "Agent",
       "admin": "Admin",
       "owner": "Owner",
       "visitor": "Visitor"
-    }
+    },
+    "confirmSuspendTitle": "Suspend this account?",
+    "confirmSuspendBody": "{name} will immediately lose access to their account until reactivated.",
+    "confirmSuspendButton": "Yes, Suspend",
+    "confirmRoleChangeTitle": "Change this user's role?",
+    "confirmRoleChangeBody": "{name} will become \"{role}\". This changes what they can access immediately.",
+    "confirmRoleChangeButton": "Yes, Change Role",
+    "confirmDeleteTitle": "Permanently delete this account?",
+    "confirmDeleteBody": "{name} and their login will be permanently deleted. Their inquiries and property submissions are kept as business records but no longer linked to an account. This cannot be undone.",
+    "confirmDeleteButton": "Yes, Delete Permanently"
   },
   "adminAgents": {
     "title": "Agents",
     "newAgent": "New Agent",
     "editAgent": "Edit Agent",
     "empty": "No agents found.",
+    "searchPlaceholder": "Search by name...",
     "unlinked": "No login linked",
     "linkProfileTitle": "Linked Account",
     "fullName": "Full Name",
@@ -615,7 +691,8 @@
     "backHome": "Back to Home",
     "errorTitle": "Something Went Wrong",
     "errorBody": "An unexpected error occurred. Please try again, or head back to the homepage.",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "errorId": "Error ID: {id}"
   },
   "favorites": {
     "subtitle": "Properties you've saved for later.",
@@ -640,6 +717,10 @@
     "submit": "Submit for Review",
     "submitting": "Submitting...",
     "submitError": "Something went wrong. Please try again.",
+    "submitErrorValidation": "Please go back and check the highlighted fields.",
+    "submitErrorVerification": "We couldn't verify you're human. Please try again in a moment.",
+    "submitErrorVerificationUnavailable": "Our spam-verification check didn't load — this can happen with an ad blocker or privacy extension enabled. Please try again, or disable it for this site.",
+    "submitErrorRateLimited": "You've submitted a few listings recently — please wait a while before trying again.",
     "step1": {
       "title": "Do you want to sell or rent out your property?",
       "subtitle": "Choose the option that matches your goal.",
@@ -696,7 +777,8 @@
       "invalidType": "This file type isn't supported.",
       "tooLarge": "File is too large (max 8MB).",
       "uploadError": "Upload failed. Please try again.",
-      "minPhotosError": "Please upload at least one photo."
+      "minPhotosError": "Please upload at least one photo.",
+      "notReady": "Preparing upload, one moment..."
     },
     "step7": {
       "title": "Your contact information",
@@ -724,6 +806,8 @@
     "success": {
       "title": "Thank you!",
       "body": "Your property has been sent for review. Our team will review it and get back to you shortly.",
+      "referenceLabel": "Reference number:",
+      "trackSubmission": "Track your submission",
       "backHome": "Back to Home"
     }
   }

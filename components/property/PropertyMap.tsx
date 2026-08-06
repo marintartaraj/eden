@@ -60,7 +60,7 @@ export function PropertyMap({
 
     for (const marker of markers) {
       const el = document.createElement(marker.href ? "a" : "div");
-      el.className = "block h-7 w-7 -translate-y-1/2 cursor-pointer rounded-full border-2 border-white bg-[#1f5c52] shadow-md";
+      el.className = "block h-7 w-7 -translate-y-1/2 cursor-pointer rounded-full border-2 border-card bg-accent shadow-md";
       if (marker.href) {
         (el as HTMLAnchorElement).href = marker.href;
       }

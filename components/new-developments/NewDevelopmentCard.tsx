@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { Building2, Calendar } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import type { NewDevelopmentListItem } from "@/lib/data/new-developments";
 import { localize } from "@/lib/localize";
 import { formatDate } from "@/lib/format";
 
-export function NewDevelopmentCard({
+export async function NewDevelopmentCard({
   development,
   locale,
   priority = false,
@@ -15,6 +16,7 @@ export function NewDevelopmentCard({
   locale: AppLocale;
   priority?: boolean;
 }) {
+  const t = await getTranslations("newDevelopmentsPage");
   const name = localize(development.name_sq, development.name_en, locale);
   const cityName = development.city
     ? localize(development.city.name_sq, development.city.name_en, locale)
@@ -40,6 +42,9 @@ export function NewDevelopmentCard({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         )}
+        <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+          {t("badge")}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">

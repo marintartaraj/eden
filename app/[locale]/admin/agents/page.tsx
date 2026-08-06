@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { SearchablePaginatedList } from "@/components/ui/SearchablePaginatedList";
 import { Link } from "@/i18n/navigation";
 import { getAllAgentsWithLinkStatus } from "@/lib/data/admin-agents";
 
@@ -28,26 +29,25 @@ export default async function AdminAgentsPage({
       <AdminNav />
 
       <div className="mt-8">
-        {agents.length === 0 ? (
-          <p className="text-sm text-muted">{t("empty")}</p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {agents.map((agent) => (
-              <Link
-                key={agent.id}
-                href={`/admin/agents/${agent.id}`}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
-              >
-                <div>
-                  <p className="font-medium text-foreground">{agent.full_name}</p>
-                  <p className="text-sm text-muted">
-                    {agent.linkedProfileName ? agent.linkedProfileName : t("unlinked")}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        <SearchablePaginatedList
+          items={agents.map((agent) => (
+            <Link
+              key={agent.id}
+              href={`/admin/agents/${agent.id}`}
+              className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
+            >
+              <div>
+                <p className="font-medium text-foreground">{agent.full_name}</p>
+                <p className="text-sm text-muted">
+                  {agent.linkedProfileName ? agent.linkedProfileName : t("unlinked")}
+                </p>
+              </div>
+            </Link>
+          ))}
+          searchText={agents.map((agent) => agent.full_name)}
+          searchPlaceholder={t("searchPlaceholder")}
+          emptyMessage={t("empty")}
+        />
       </div>
     </Container>
   );

@@ -7,16 +7,21 @@ import type { Database } from "@/types/supabase";
 
 type SubmissionStatus = Database["public"]["Enums"]["submission_status"];
 
-const STATUS_LABELS: Record<SubmissionStatus, string> = {
-  draft: "draft",
-  submitted: "submitted",
-  pending_review: "pending review",
-  more_info_required: "needs more information",
-  approved: "approved",
-  rejected: "rejected",
-  published: "published",
-  withdrawn: "withdrawn",
-  archived: "archived",
+// This email goes to the submitter — a property owner who chose the site's
+// Albanian locale for their own submission (evidenced by `titleSq`/guest
+// name being Albanian-first data) — not to internal staff, so unlike the
+// admin-facing notifications elsewhere in this file the body needs both
+// languages rather than assuming English is readable.
+const STATUS_LABELS: Record<SubmissionStatus, { en: string; sq: string }> = {
+  draft: { en: "draft", sq: "draft" },
+  submitted: { en: "submitted", sq: "dërguar" },
+  pending_review: { en: "pending review", sq: "në pritje të shqyrtimit" },
+  more_info_required: { en: "needs more information", sq: "kërkon informacion shtesë" },
+  approved: { en: "approved", sq: "miratuar" },
+  rejected: { en: "rejected", sq: "refuzuar" },
+  published: { en: "published", sq: "publikuar" },
+  withdrawn: { en: "withdrawn", sq: "tërhequr" },
+  archived: { en: "archived", sq: "arkivuar" },
 };
 
 export async function reviewSubmission(
@@ -53,12 +58,14 @@ export async function reviewSubmission(
       : null);
 
   if (submitterEmail) {
+    const status = STATUS_LABELS[options.status];
     await sendEmail({
       to: submitterEmail,
-      subject: `Your property submission is now ${STATUS_LABELS[options.status]}`,
+      subject: `Your property submission is now ${status.en} / Dorëzimi juaj i pronës tani është ${status.sq}`,
       html: `
-        <p>Your submission${property?.title_sq ? ` for <strong>${property.title_sq}</strong>` : ""} is now <strong>${STATUS_LABELS[options.status]}</strong>.</p>
-        ${options.feedback ? `<p>Note from our team: ${options.feedback}</p>` : ""}
+        <p>Your submission${property?.title_sq ? ` for <strong>${property.title_sq}</strong>` : ""} is now <strong>${status.en}</strong>.${options.feedback ? ` Note from our team: ${options.feedback}` : ""}</p>
+        <hr />
+        <p>Dorëzimi juaj${property?.title_sq ? ` për <strong>${property.title_sq}</strong>` : ""} tani është <strong>${status.sq}</strong>.${options.feedback ? ` Shënim nga ekipi ynë: ${options.feedback}` : ""}</p>
       `,
     });
   }

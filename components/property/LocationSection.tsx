@@ -21,7 +21,7 @@ export async function LocationSection({
     ? localize(property.neighborhood.name_sq, property.neighborhood.name_en, locale)
     : null;
   const location = [property.address_line, neighborhoodName, cityName].filter(Boolean).join(", ");
-  const coordinates = resolveCoordinates(property.lat, property.lng, property.city?.slug);
+  const coordinates = resolveCoordinates(property.lat, property.lng, property.city?.slug, property.id);
 
   return (
     <section>

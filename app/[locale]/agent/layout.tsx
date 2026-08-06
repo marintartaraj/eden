@@ -1,5 +1,6 @@
 import { redirect } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/auth/session";
+import { DashboardIdentityBar } from "@/components/layout/DashboardIdentityBar";
 import type { AppLocale } from "@/i18n/routing";
 
 export default async function AgentLayout({
@@ -26,5 +27,14 @@ export default async function AgentLayout({
     return redirect({ href: "/access-denied", locale: appLocale });
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <DashboardIdentityBar
+        namespace="agentDashboard"
+        name={current.profile.full_name ?? current.user.email ?? ""}
+        role={current.profile.role === "admin" ? "admin" : "agent"}
+      />
+      {children}
+    </>
+  );
 }

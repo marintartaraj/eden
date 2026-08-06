@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/navigation";
@@ -17,7 +16,9 @@ export default function AdminErrorBoundary({
 
   useEffect(() => {
     console.error(error);
-    Sentry.captureException(error);
+    // Dynamic import: keeps @sentry/nextjs out of this route's initial
+    // bundle when it's disabled (see instrumentation-client.ts).
+    import("@sentry/nextjs").then((Sentry) => Sentry.captureException(error));
   }, [error]);
 
   return (
@@ -25,7 +26,7 @@ export default function AdminErrorBoundary({
       <h1 className="font-serif text-2xl text-foreground sm:text-3xl">{t("errorTitle")}</h1>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted">{t("errorBody")}</p>
       {error.digest && (
-        <p className="mt-2 text-xs text-muted">Error ID: {error.digest}</p>
+        <p className="mt-2 text-xs text-muted">{t("errorId", { id: error.digest })}</p>
       )}
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <button

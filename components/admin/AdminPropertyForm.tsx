@@ -9,6 +9,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Button } from "@/components/ui/Button";
+import { CollapsibleSection } from "@/components/ui/CollapsibleSection";
 import { PropertyCoreFields } from "@/components/property-form/PropertyCoreFields";
 import {
   adminPropertySchema,
@@ -102,34 +103,37 @@ export function AdminPropertyForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
-      <section className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6">
-        <h2 className="font-serif text-lg text-foreground">{adminT("controlsTitle")}</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">{adminT("agentAssign")}</label>
-            <Select {...register("agentId")}>
-              <option value="">{adminT("unassigned")}</option>
-              {agents.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.full_name}
-                </option>
-              ))}
-            </Select>
+      <div className="rounded-2xl border border-border bg-card p-6">
+        <CollapsibleSection title={adminT("controlsTitle")}>
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-foreground">{adminT("agentAssign")}</label>
+                <Select {...register("agentId")}>
+                  <option value="">{adminT("unassigned")}</option>
+                  {agents.map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.full_name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-6">
+              <Checkbox
+                checked={Boolean(isFeatured)}
+                onChange={(checked) => setValue("isFeatured", checked)}
+                label={adminT("featured")}
+              />
+              <Checkbox
+                checked={Boolean(isExclusive)}
+                onChange={(checked) => setValue("isExclusive", checked)}
+                label={adminT("exclusive")}
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-wrap gap-6">
-          <Checkbox
-            checked={Boolean(isFeatured)}
-            onChange={(checked) => setValue("isFeatured", checked)}
-            label={adminT("featured")}
-          />
-          <Checkbox
-            checked={Boolean(isExclusive)}
-            onChange={(checked) => setValue("isExclusive", checked)}
-            label={adminT("exclusive")}
-          />
-        </div>
-      </section>
+        </CollapsibleSection>
+      </div>
 
       <PropertyCoreFields
         register={register as unknown as UseFormRegister<AgentPropertyInput>}

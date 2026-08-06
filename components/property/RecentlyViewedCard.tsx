@@ -38,7 +38,7 @@ export function RecentlyViewedCard({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         )}
-        <span className="absolute left-2 top-2 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-medium text-background">
+        <span className="absolute left-2 top-2 rounded-full bg-accent px-2 py-0.5 text-[10px] font-medium text-background">
           {item.purpose === "sale" ? t("badgeSale") : t("badgeRent")}
         </span>
       </div>

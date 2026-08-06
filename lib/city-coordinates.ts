@@ -21,12 +21,44 @@ export const CITY_COORDINATES: Record<string, { lat: number; lng: number }> = {
   himare: { lat: 40.1017, lng: 19.7439 },
 };
 
+// A precisely-geocoded property (see lib/geocode.ts) stores the seller's
+// exact home address as lat/lng — showing that unmodified on a public map
+// would pinpoint a real person's front door to any visitor. This applies a
+// small (60-150m radius) offset before display only, deterministically
+// seeded from the property id so the same property always shows the same
+// fuzzed point rather than jumping around per page load. The precise
+// value in the database is untouched, in case a future feature (accurate
+// distance sorting, directions for a confirmed viewing) needs it.
+function applyPrivacyOffset(lat: number, lng: number, seed: string): { lat: number; lng: number } {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const unsignedHash = hash >>> 0;
+  const angle = ((unsignedHash % 3600) / 3600) * 2 * Math.PI;
+  const distanceMeters = 60 + (Math.imul(unsignedHash ^ 0x9e3779b9, 2654435761) >>> 0) % 90;
+
+  const earthRadius = 6378137;
+  const dLat = (distanceMeters * Math.cos(angle)) / earthRadius;
+  const dLng =
+    (distanceMeters * Math.sin(angle)) / (earthRadius * Math.cos((lat * Math.PI) / 180));
+
+  return {
+    lat: lat + (dLat * 180) / Math.PI,
+    lng: lng + (dLng * 180) / Math.PI,
+  };
+}
+
 export function resolveCoordinates(
   lat: number | null,
   lng: number | null,
   citySlug: string | null | undefined,
+  privacySeed?: string,
 ): { lat: number; lng: number; precise: boolean } | null {
-  if (lat != null && lng != null) return { lat, lng, precise: true };
+  if (lat != null && lng != null) {
+    return { ...(privacySeed ? applyPrivacyOffset(lat, lng, privacySeed) : { lat, lng }), precise: true };
+  }
   if (citySlug && CITY_COORDINATES[citySlug]) {
     return { ...CITY_COORDINATES[citySlug], precise: false };
   }

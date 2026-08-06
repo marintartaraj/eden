@@ -5,7 +5,8 @@ import { AccountNav } from "@/components/account/AccountNav";
 import { WithdrawSubmissionButton } from "@/components/account/WithdrawSubmissionButton";
 import { getMySubmissionById } from "@/lib/data/submissions";
 import { localize } from "@/lib/localize";
-import { formatPrice, formatDate } from "@/lib/format";
+import { formatPrice, formatDateWithDay } from "@/lib/format";
+import { submissionStatusClasses } from "@/lib/status-styles";
 import type { AppLocale } from "@/i18n/routing";
 
 export default async function SubmissionDetailPage({
@@ -35,7 +36,9 @@ export default async function SubmissionDetailPage({
       <div className="mt-8 max-w-2xl rounded-2xl border border-border bg-card p-6">
         <div className="flex items-center justify-between gap-4">
           <h2 className="font-serif text-lg text-foreground">{title}</h2>
-          <span className="rounded-full bg-border px-3 py-1 text-xs font-medium text-foreground">
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${submissionStatusClasses(submission.status)}`}
+          >
             {t(`status.${submission.status}`)}
           </span>
         </div>
@@ -47,7 +50,7 @@ export default async function SubmissionDetailPage({
         )}
 
         <p className="mt-4 text-sm text-muted">
-          {t("submittedOn", { date: formatDate(submission.submitted_at, appLocale) })}
+          {t("submittedOn", { date: formatDateWithDay(submission.submitted_at, appLocale) })}
         </p>
 
         {submission.admin_feedback && (

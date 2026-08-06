@@ -19,7 +19,7 @@ export function PhotoUploadField({
 }: {
   photos: UploadedPhoto[];
   onChange: (photos: UploadedPhoto[]) => void;
-  submissionId: string;
+  submissionId: string | null;
 }) {
   const t = useTranslations("sellProperty.step6");
   const [uploading, setUploading] = useState(false);
@@ -28,6 +28,10 @@ export function PhotoUploadField({
 
   async function handleFiles(fileList: FileList | null) {
     if (!fileList || fileList.length === 0) return;
+    if (!submissionId) {
+      setError(t("notReady"));
+      return;
+    }
     setError(null);
     const supabase = createClient();
     const files = Array.from(fileList);
@@ -71,7 +75,7 @@ export function PhotoUploadField({
       <label
         className={cn(
           "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-card px-6 py-10 text-center transition-colors hover:border-accent",
-          uploading && "pointer-events-none opacity-60",
+          (uploading || !submissionId) && "pointer-events-none opacity-60",
         )}
       >
         <input
@@ -81,15 +85,15 @@ export function PhotoUploadField({
           accept={ACCEPTED_TYPES.join(",")}
           onChange={(event) => handleFiles(event.target.files)}
           className="sr-only"
-          disabled={uploading}
+          disabled={uploading || !submissionId}
         />
-        {uploading ? (
+        {uploading || !submissionId ? (
           <Loader2 className="h-6 w-6 animate-spin text-accent" />
         ) : (
           <Upload className="h-6 w-6 text-accent" />
         )}
         <span className="text-sm font-medium text-foreground">{t("uploadCta")}</span>
-        <span className="text-xs text-muted">{t("uploadHint")}</span>
+        <span className="text-xs text-muted">{submissionId ? t("uploadHint") : t("notReady")}</span>
       </label>
 
       {error && <p className="text-xs text-danger">{error}</p>}

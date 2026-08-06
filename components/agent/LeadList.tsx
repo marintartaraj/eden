@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { updateLeadStatus, updateFollowUpDate, addLeadNote } from "@/lib/actions/agent-leads";
 import { Select } from "@/components/ui/Select";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { SearchablePaginatedList } from "@/components/ui/SearchablePaginatedList";
+import { formatDateWithDay } from "@/lib/format";
+import type { AppLocale } from "@/i18n/routing";
 import type { AgentLead } from "@/lib/data/agent-leads";
 import type { Database } from "@/types/supabase";
 
@@ -29,6 +32,7 @@ function LeadRow({
 }) {
   const t = useTranslations("agentLeads");
   const adminT = useTranslations("adminLeads");
+  const locale = useLocale() as AppLocale;
   const [status, setStatus] = useState<InquiryStatus>(lead.status);
   const [followUpDate, setFollowUpDate] = useState(lead.follow_up_date ?? "");
   const [assignedAgentId, setAssignedAgentId] = useState(lead.assigned_agent_id ?? "");
@@ -122,7 +126,10 @@ function LeadRow({
 
       {lead.preferred_date && (
         <p className="mt-2 text-sm text-muted">
-          {t("preferred", { date: lead.preferred_date, time: lead.preferred_time ?? "" })}
+          {t("preferred", {
+            date: formatDateWithDay(lead.preferred_date, locale),
+            time: lead.preferred_time ?? "",
+          })}
         </p>
       )}
 
@@ -205,15 +212,14 @@ export function LeadList({
 }) {
   const t = useTranslations("agentLeads");
 
-  if (leads.length === 0) {
-    return <p className="text-sm text-muted">{t("empty")}</p>;
-  }
-
   return (
-    <div className="flex flex-col gap-3">
-      {leads.map((lead) => (
+    <SearchablePaginatedList
+      items={leads.map((lead) => (
         <LeadRow key={lead.id} lead={lead} agents={agents} onAssign={onAssign} />
       ))}
-    </div>
+      searchText={leads.map((lead) => `${lead.name} ${lead.email} ${lead.phone ?? ""}`)}
+      searchPlaceholder={t("searchPlaceholder")}
+      emptyMessage={t("empty")}
+    />
   );
 }

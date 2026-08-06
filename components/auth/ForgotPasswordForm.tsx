@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations, useLocale } from "next-intl";
@@ -15,6 +15,7 @@ export function ForgotPasswordForm() {
   const t = useTranslations("auth");
   const locale = useLocale() as AppLocale;
   const [status, setStatus] = useState<"idle" | "success">("idle");
+  const emailId = useId();
 
   const {
     register,
@@ -45,7 +46,16 @@ export function ForgotPasswordForm() {
       className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
     >
       <div>
-        <Input type="email" placeholder={t("emailPlaceholder")} {...register("email")} />
+        <label htmlFor={emailId} className="mb-1.5 block text-sm font-medium text-foreground">
+          {t("emailPlaceholder")}
+        </label>
+        <Input
+          id={emailId}
+          type="email"
+          autoComplete="email"
+          placeholder={t("emailPlaceholder")}
+          {...register("email")}
+        />
         {errors.email && <p className="mt-1 text-xs text-danger">{t("emailError")}</p>}
       </div>
 

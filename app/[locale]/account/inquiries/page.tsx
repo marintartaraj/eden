@@ -4,7 +4,7 @@ import { AccountNav } from "@/components/account/AccountNav";
 import { Link } from "@/i18n/navigation";
 import { getMyInquiries } from "@/lib/data/inquiries";
 import { localize } from "@/lib/localize";
-import { formatDate } from "@/lib/format";
+import { formatDateWithDay } from "@/lib/format";
 import type { AppLocale } from "@/i18n/routing";
 
 export default async function InquiriesPage({
@@ -25,7 +25,15 @@ export default async function InquiriesPage({
 
       <div className="mt-8">
         {inquiries.length === 0 ? (
-          <p className="text-sm text-muted">{t("empty")}</p>
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card px-6 py-16 text-center">
+            <p className="text-muted">{t("empty")}</p>
+            <Link
+              href="/properties"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+            >
+              {t("browseCta")}
+            </Link>
+          </div>
         ) : (
           <div className="flex flex-col gap-3">
             {inquiries.map((inquiry) => (
@@ -36,7 +44,9 @@ export default async function InquiriesPage({
                       ? localize(inquiry.property.title_sq, inquiry.property.title_en, appLocale)
                       : t("generalInquiry")}
                   </p>
-                  <span className="text-xs text-muted">{formatDate(inquiry.created_at, appLocale)}</span>
+                  <span className="text-xs text-muted">
+                    {formatDateWithDay(inquiry.created_at, appLocale)}
+                  </span>
                 </div>
                 {inquiry.message && <p className="mt-2 text-sm text-muted">{inquiry.message}</p>}
                 {inquiry.property && (

@@ -44,7 +44,7 @@ export async function PropertyCard({
           />
         )}
         <div className="absolute left-3 top-3 flex gap-2">
-          <span className="rounded-full bg-foreground px-3 py-1 text-xs font-medium text-background">
+          <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-background">
             {property.purpose === "sale" ? t("badgeSale") : t("badgeRent")}
           </span>
           {property.is_exclusive ? (

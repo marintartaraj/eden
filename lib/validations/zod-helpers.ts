@@ -11,3 +11,16 @@ import { z } from "zod";
 export function optionalNumber<T extends z.ZodTypeAny>(schema: T) {
   return z.preprocess((val) => (val === "" ? undefined : val), schema.optional());
 }
+
+// Same root cause as optionalNumber above, for enum-backed <select> fields
+// instead of <input type="number">: a native <select>'s unselected/placeholder
+// option (<option value="">) submits as "", and z.enum([...]).optional()
+// only treats undefined as absent — "" fails enum validation outright. That
+// silently blocks the whole form submit with no visible field error (neither
+// PropertyCoreFields nor AgentPropertyForm renders one for these fields),
+// so an agent/admin leaving Furnishing, Construction Condition, or
+// Certificate Status on its placeholder option gets a dead "Create
+// Property"/"Save Changes" button and no explanation why.
+export function optionalEnum<T extends z.ZodTypeAny>(schema: T) {
+  return z.preprocess((val) => (val === "" ? undefined : val), schema.optional());
+}

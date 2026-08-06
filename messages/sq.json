@@ -18,6 +18,7 @@
     "login": "Hyr",
     "signUp": "Regjistrohu",
     "myAccount": "Llogaria Ime",
+    "accountMenu": "Menuja e llogarisë",
     "agentDashboard": "Paneli i Agjentit",
     "adminDashboard": "Paneli i Administratorit",
     "logout": "Dil",
@@ -27,13 +28,27 @@
   "footer": {
     "rights": "Të gjitha të drejtat e rezervuara.",
     "explore": "Eksploro",
-    "company": "Kompania"
+    "company": "Kompania",
+    "contactCta": "Na Kontaktoni"
   },
   "common": {
     "language": "Gjuha",
     "menu": "Menu",
     "close": "Mbyll",
-    "loading": "Duke u ngarkuar..."
+    "cancel": "Anulo",
+    "loading": "Duke u ngarkuar...",
+    "showPassword": "Shfaq fjalëkalimin",
+    "hidePassword": "Fshih fjalëkalimin",
+    "skipToContent": "Kalo te përmbajtja",
+    "loggingOut": "Duke u shkyçur...",
+    "noSearchResults": "Asnjë rezultat nuk përputhet me kërkimin tuaj.",
+    "previousPage": "Faqja e mëparshme",
+    "nextPage": "Faqja tjetër",
+    "pageOf": "Faqja {page} nga {total}",
+    "turnstile": {
+      "loading": "Duke ngarkuar verifikimin...",
+      "blocked": "Kontrolli ynë anti-spam nuk u ngarkua — kjo shkaktohet shpesh nga një bllokues reklamash ose shtesë privatësie. Mund të provoni përsëri, ose ta çaktivizoni atë për këtë sit."
+    }
   },
   "hero": {
     "cityLabel": "Qyteti",
@@ -125,7 +140,8 @@
     "maxPlaceholder": "Maks",
     "any": "Të gjitha",
     "clearAll": "Pastro Filtrat",
-    "apply": "Apliko Filtrat"
+    "apply": "Apliko Filtrat",
+    "removeFilter": "Hiq filtrin {filter}"
   },
   "sort": {
     "label": "Rendit sipas",
@@ -173,6 +189,13 @@
     "in_process": "Në Proces"
   },
   "detail": {
+    "gallery": {
+      "close": "Mbyll",
+      "previous": "Foto e mëparshme",
+      "next": "Foto tjetër",
+      "imageCounter": "Foto {current} nga {total}",
+      "dialogLabel": "Galeria e fotove për {title}"
+    },
     "specifications": "Specifikimet",
     "specPropertyType": "Lloji i Pronës",
     "specNetArea": "Sipërfaqja Neto",
@@ -203,11 +226,15 @@
       "title": "Kontakto për këtë Pronë",
       "typeGeneral": "Pyetje e Përgjithshme",
       "typeViewing": "Kërko Vizitë",
+      "nameLabel": "Emri",
       "namePlaceholder": "Emri juaj",
       "nameError": "Ju lutemi shkruani emrin tuaj.",
+      "emailLabel": "Email",
       "emailPlaceholder": "Email-i juaj",
       "emailError": "Ju lutemi shkruani një email të vlefshëm.",
+      "phoneLabel": "Telefoni",
       "phonePlaceholder": "Numri i telefonit (opsionale)",
+      "messageLabel": "Mesazhi",
       "messagePlaceholder": "Mesazhi juaj (opsionale)",
       "preferredDate": "Data e preferuar",
       "preferredTime": "Ora e preferuar",
@@ -216,7 +243,11 @@
       "submitting": "Duke dërguar...",
       "successTitle": "Faleminderit!",
       "successBody": "Kërkesa juaj u dërgua. Një agjent do t'ju kontaktojë së shpejti.",
-      "errorMessage": "Diçka shkoi keq. Ju lutemi provoni përsëri."
+      "errorMessage": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+      "errorValidation": "Ju lutemi kontrolloni fushat më sipër dhe provoni përsëri.",
+      "errorVerification": "Nuk arritëm të verifikojmë që jeni njeri. Ju lutemi provoni përsëri pas pak.",
+      "errorVerificationUnavailable": "Kontrolli ynë anti-spam nuk u ngarkua — kjo mund të ndodhë me një bllokues reklamash ose shtesë privatësie të aktivizuar. Ju lutemi provoni përsëri, ose çaktivizojeni për këtë sit.",
+      "errorRateLimited": "Keni dërguar disa kërkesa kohët e fundit — ju lutemi prisni pak para se të provoni përsëri."
     },
     "mortgage": {
       "title": "Kalkulatori i Kredisë",
@@ -240,7 +271,8 @@
   "newDevelopmentsPage": {
     "title": "Projekte të Reja",
     "subtitle": "Eksploroni projektet rezidenciale në ndërtim e sipër dhe të ardhshme.",
-    "empty": "Nuk ka projekte të reja të disponueshme për momentin."
+    "empty": "Nuk ka projekte të reja të disponueshme për momentin.",
+    "badge": "Projekt i Ri"
   },
   "newDevelopmentDetail": {
     "delivery": "Dorëzimi {date}",
@@ -327,6 +359,13 @@
     "signUp": "Regjistrohu",
     "signingUp": "Duke krijuar llogarinë...",
     "signupError": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "errorEmailTaken": "Një llogari me këtë email ekziston tashmë.",
+    "errorWeakPassword": "Ai fjalëkalim është shumë i dobët. Ju lutemi zgjidhni një më të fortë.",
+    "errorSamePassword": "Fjalëkalimi juaj i ri duhet të jetë ndryshe nga ai aktuali.",
+    "errorSessionExpired": "Sesioni juaj ka skaduar. Ju lutemi kërkoni një lidhje të re për rivendosjen e fjalëkalimit.",
+    "resetLinkInvalidTitle": "Kjo lidhje ka skaduar",
+    "resetLinkInvalidBody": "Lidhjet për rivendosjen e fjalëkalimit janë të vlefshme vetëm për një kohë të shkurtër. Ju lutemi kërkoni një të re.",
+    "requestNewLink": "Kërko një Lidhje të Re",
     "haveAccount": "Keni tashmë një llogari?",
     "loginLink": "Hyr",
     "checkEmailTitle": "Kontrolloni email-in tuaj",
@@ -352,11 +391,13 @@
     "navSubmissions": "Dorëzimet",
     "importFavoritesPrompt": "Të importohen {count} pronë(a) e preferuar e ruajtur në këtë pajisje në llogarinë tuaj?",
     "importing": "Duke importuar...",
-    "importFavorites": "Importo"
+    "importFavorites": "Importo",
+    "dismissImportBanner": "Hiq"
   },
   "savedSearches": {
     "title": "Kërkimet e Ruajtura",
     "empty": "Nuk keni ruajtur asnjë kërkim ende.",
+    "browseCta": "Shfleto Pronat",
     "namePlaceholder": "Emërtoni këtë kërkim",
     "save": "Ruaj",
     "saveSearch": "Ruaj Kërkimin",
@@ -367,6 +408,7 @@
     "title": "Dorëzimet e Mia",
     "detailTitle": "Detajet e Dorëzimit",
     "empty": "Nuk keni dorëzuar asnjë pronë ende.",
+    "addPropertyCta": "Listo Pronën Tuaj",
     "untitled": "Pronë pa titull",
     "submittedOn": "Dorëzuar më {date}",
     "adminFeedbackLabel": "Komente nga ekipi ynë",
@@ -390,18 +432,21 @@
   "inquiriesPage": {
     "title": "Kërkesat e Mia",
     "empty": "Nuk keni dërguar asnjë kërkesë ende.",
+    "browseCta": "Shfleto Pronat",
     "generalInquiry": "Kërkesë e Përgjithshme",
     "viewProperty": "Shiko Pronën"
   },
   "viewingsPage": {
     "title": "Kërkesat e Mia për Vizita",
     "empty": "Nuk keni kërkuar asnjë vizitë ende.",
+    "browseCta": "Shfleto Pronat",
     "untitledProperty": "Pronë",
     "preferred": "Preferuar: {date} {time}",
     "viewProperty": "Shiko Pronën"
   },
   "agentDashboard": {
     "title": "Paneli i Agjentit",
+    "loggedInAs": "I kyçur si {name}",
     "comingSoon": "Pronat dhe kontaktet e caktuara për ju do të shfaqen këtu së shpejti.",
     "navOverview": "Përmbledhje",
     "navProperties": "Pronat",
@@ -419,6 +464,7 @@
     "newProperty": "Pronë e Re",
     "editProperty": "Ndrysho Pronën",
     "empty": "Nuk keni asnjë pronë të caktuar ende.",
+    "searchPlaceholder": "Kërko sipas titullit...",
     "status": {
       "draft": "Draft",
       "pending": "Në Pritje",
@@ -484,7 +530,13 @@
       "moveUp": "Lëviz lart",
       "moveDown": "Lëviz poshtë",
       "setCover": "Vendos si foto kryesore",
-      "cover": "Kryesore"
+      "cover": "Kryesore",
+      "confirmRemovePhotoTitle": "Të fshihet kjo foto?",
+      "confirmRemovePhotoBody": "Kjo foto do të hiqet përgjithmonë nga shpallja. Ky veprim nuk mund të zhbëhet.",
+      "confirmRemovePhotoButton": "Po, Fshi Foton",
+      "confirmRemoveFloorPlanTitle": "Të fshihet kjo planimetri?",
+      "confirmRemoveFloorPlanBody": "Kjo planimetri do të hiqet përgjithmonë nga shpallja. Ky veprim nuk mund të zhbëhet.",
+      "confirmRemoveFloorPlanButton": "Po, Fshi Planimetrinë"
     }
   },
   "agentLeads": {
@@ -492,6 +544,7 @@
     "viewingsTitle": "Vizitat e Caktuara",
     "followUpsTitle": "Ndjekjet",
     "empty": "Nuk keni asnjë kontakt të caktuar ende.",
+    "searchPlaceholder": "Kërko sipas emrit, email-it, ose telefonit...",
     "status": {
       "new": "E Re",
       "contacted": "U Kontaktua",
@@ -514,6 +567,7 @@
   },
   "adminDashboard": {
     "title": "Paneli i Administratorit",
+    "loggedInAs": "I kyçur si {name}",
     "navOverview": "Përmbledhje",
     "navSubmissions": "Paraqitjet",
     "navProperties": "Pronat",
@@ -531,6 +585,7 @@
     "title": "Pronat",
     "editProperty": "Ndrysho Pronën",
     "empty": "Nuk u gjetën prona.",
+    "searchPlaceholder": "Kërko sipas titullit...",
     "allStatuses": "Të gjitha",
     "controlsTitle": "Kontrolle Administrative",
     "agentAssign": "Agjenti i Caktuar",
@@ -542,6 +597,7 @@
     "title": "Paraqitjet",
     "detailTitle": "Paraqitja",
     "empty": "Nuk u gjetën paraqitje.",
+    "searchPlaceholder": "Kërko sipas titullit të pronës ose dërguesit...",
     "allStatuses": "Të gjitha",
     "statusLabel": "Statusi",
     "submittedByAccount": "Paraqitur nga një përdorues i regjistruar",
@@ -556,7 +612,14 @@
     "actionApprove": "Mirato & Publiko",
     "actionReject": "Refuzo",
     "saving": "Duke ruajtur...",
-    "error": "Diçka shkoi keq. Ju lutemi provoni përsëri."
+    "error": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "feedbackRequiredError": "Ju lutemi shpjegoni pse po refuzohet kjo paraqitje — paraqitësi do ta shohë këtë shënim.",
+    "confirmApproveTitle": "Të miratohet dhe publikohet kjo paraqitje?",
+    "confirmApproveBody": "Prona do të krijohet dhe do të bëhet publikisht e dukshme në sit.",
+    "confirmApproveButton": "Po, Mirato & Publiko",
+    "confirmRejectTitle": "Të refuzohet kjo paraqitje?",
+    "confirmRejectBody": "Paraqitësi do të njoftohet me komentin tuaj. Ky veprim nuk mund të zhbëhet.",
+    "confirmRejectButton": "Po, Refuzo"
   },
   "adminLeads": {
     "assignLabel": "Cakto",
@@ -565,22 +628,35 @@
   "adminUsers": {
     "title": "Përdoruesit",
     "empty": "Nuk u gjetën përdorues.",
+    "searchPlaceholder": "Kërko sipas emrit ose email-it...",
     "suspended": "I pezulluar",
     "suspend": "Pezullo",
     "reactivate": "Riaktivizo",
+    "deleteAccount": "Fshi Llogarinë",
+    "deleteError": "Fshirja e kësaj llogarie dështoi. Provoni përsëri.",
     "roles": {
       "registered_user": "Përdorues i Regjistruar",
       "agent": "Agjent",
       "admin": "Administrator",
       "owner": "Pronar",
       "visitor": "Vizitor"
-    }
+    },
+    "confirmSuspendTitle": "Të pezullohet ky llogari?",
+    "confirmSuspendBody": "{name} do të humbasë menjëherë qasjen në llogarinë e tij/saj deri sa të riaktivizohet.",
+    "confirmSuspendButton": "Po, Pezullo",
+    "confirmRoleChangeTitle": "Të ndryshohet roli i këtij përdoruesi?",
+    "confirmRoleChangeBody": "{name} do të bëhet \"{role}\". Kjo ndryshon menjëherë çfarë mund të aksesojë.",
+    "confirmRoleChangeButton": "Po, Ndrysho Rolin",
+    "confirmDeleteTitle": "Të fshihet përgjithmonë kjo llogari?",
+    "confirmDeleteBody": "{name} dhe hyrja e tij/saj do të fshihen përgjithmonë. Kërkesat dhe paraqitjet e pronave ruhen si të dhëna biznesi, por nuk do të lidhen më me një llogari. Ky veprim nuk mund të zhbëhet.",
+    "confirmDeleteButton": "Po, Fshi Përgjithmonë"
   },
   "adminAgents": {
     "title": "Agjentët",
     "newAgent": "Agjent i Ri",
     "editAgent": "Ndrysho Agjentin",
     "empty": "Nuk u gjetën agjentë.",
+    "searchPlaceholder": "Kërko sipas emrit...",
     "unlinked": "Pa llogari të lidhur",
     "linkProfileTitle": "Llogaria e Lidhur",
     "fullName": "Emri i Plotë",
@@ -615,7 +691,8 @@
     "backHome": "Kthehu në Ballina",
     "errorTitle": "Diçka Shkoi Keq",
     "errorBody": "Ndodhi një gabim i papritur. Ju lutemi provoni përsëri, ose kthehuni në faqen kryesore.",
-    "tryAgain": "Provo Përsëri"
+    "tryAgain": "Provo Përsëri",
+    "errorId": "ID e Gabimit: {id}"
   },
   "favorites": {
     "subtitle": "Pronat që keni ruajtur për më vonë.",
@@ -640,6 +717,10 @@
     "submit": "Dërgo për Rishikim",
     "submitting": "Duke dërguar...",
     "submitError": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "submitErrorValidation": "Ju lutemi kthehuni prapa dhe kontrolloni fushat e theksuara.",
+    "submitErrorVerification": "Nuk arritëm të verifikojmë që jeni njeri. Ju lutemi provoni përsëri pas pak.",
+    "submitErrorVerificationUnavailable": "Kontrolli ynë anti-spam nuk u ngarkua — kjo mund të ndodhë me një bllokues reklamash ose shtesë privatësie të aktivizuar. Ju lutemi provoni përsëri, ose çaktivizojeni për këtë sit.",
+    "submitErrorRateLimited": "Keni dërguar disa shpallje kohët e fundit — ju lutemi prisni pak para se të provoni përsëri.",
     "step1": {
       "title": "Doni ta shisni apo ta jepni me qira pronën tuaj?",
       "subtitle": "Zgjidhni opsionin që përshtatet me qëllimin tuaj.",
@@ -696,7 +777,8 @@
       "invalidType": "Formati i skedarit nuk mbështetet.",
       "tooLarge": "Skedari është shumë i madh (maks. 8MB).",
       "uploadError": "Ngarkimi dështoi. Provoni përsëri.",
-      "minPhotosError": "Ju lutemi ngarkoni të paktën një fotografi."
+      "minPhotosError": "Ju lutemi ngarkoni të paktën një fotografi.",
+      "notReady": "Duke përgatitur ngarkimin, një moment..."
     },
     "step7": {
       "title": "Informacioni juaj i kontaktit",
@@ -724,6 +806,8 @@
     "success": {
       "title": "Faleminderit!",
       "body": "Prona juaj u dërgua për rishikim. Ekipi ynë do ta shqyrtojë dhe do t'ju kontaktojë së shpejti.",
+      "referenceLabel": "Numri i referencës:",
+      "trackSubmission": "Ndiq dërgesën tuaj",
       "backHome": "Kthehu në Ballina"
     }
   }

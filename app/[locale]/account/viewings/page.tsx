@@ -4,7 +4,7 @@ import { AccountNav } from "@/components/account/AccountNav";
 import { Link } from "@/i18n/navigation";
 import { getMyViewingRequests } from "@/lib/data/inquiries";
 import { localize } from "@/lib/localize";
-import { formatDate } from "@/lib/format";
+import { formatDateWithDay } from "@/lib/format";
 import type { AppLocale } from "@/i18n/routing";
 
 export default async function ViewingsPage({
@@ -28,7 +28,15 @@ export default async function ViewingsPage({
 
       <div className="mt-8">
         {viewings.length === 0 ? (
-          <p className="text-sm text-muted">{t("empty")}</p>
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card px-6 py-16 text-center">
+            <p className="text-muted">{t("empty")}</p>
+            <Link
+              href="/properties"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+            >
+              {t("browseCta")}
+            </Link>
+          </div>
         ) : (
           <div className="flex flex-col gap-3">
             {viewings.map((viewing) => (
@@ -39,11 +47,16 @@ export default async function ViewingsPage({
                       ? localize(viewing.property.title_sq, viewing.property.title_en, appLocale)
                       : t("untitledProperty")}
                   </p>
-                  <span className="text-xs text-muted">{formatDate(viewing.created_at, appLocale)}</span>
+                  <span className="text-xs text-muted">
+                    {formatDateWithDay(viewing.created_at, appLocale)}
+                  </span>
                 </div>
                 {viewing.preferred_date && (
                   <p className="mt-2 text-sm text-muted">
-                    {t("preferred", { date: viewing.preferred_date, time: viewing.preferred_time ?? "" })}
+                    {t("preferred", {
+                      date: formatDateWithDay(viewing.preferred_date, appLocale),
+                      time: viewing.preferred_time ?? "",
+                    })}
                   </p>
                 )}
                 {viewing.property && (

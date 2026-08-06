@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { Hero } from "@/components/home/Hero";
@@ -12,6 +13,22 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { GuidesPreview } from "@/components/home/GuidesPreview";
 import { getCities, getNeighborhoods } from "@/lib/data/locations";
 import type { AppLocale } from "@/i18n/routing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "site" });
+  // Overrides the root layout's default title with the homepage's own —
+  // `absolute` bypasses the layout's `%s · Eden` template so this renders
+  // exactly as written, not "Find your ideal home in Albania · Eden".
+  return {
+    title: { absolute: `${t("name")} — ${t("tagline")}` },
+    description: t("description"),
+  };
+}
 
 export default async function HomePage({
   params,

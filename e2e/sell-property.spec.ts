@@ -80,3 +80,55 @@ test("completes the sell-property wizard leaving optional fields blank", async (
     timeout: 45_000,
   });
 });
+
+// Regression coverage for a real bug this session found and fixed: Step6Photos
+// used to hold uploaded photos in its own local useState instead of the
+// shared react-hook-form state. Because only the active wizard step is
+// mounted, navigating away and back remounted the component with an empty
+// local array — the next upload then overwrote the form's `photos` field,
+// silently dropping every previously uploaded image. This test walks
+// forward past the photos step and back again, and uploads a second photo,
+// to confirm the first upload is never lost.
+test("keeps previously uploaded photos after navigating away from and back to the photos step", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+
+  await page.goto("/en/sell-property");
+  await expect(page.locator("h1")).toHaveText("Sell or Rent Out Your Property");
+  await page.waitForTimeout(3000);
+
+  const next = () => page.getByRole("button", { name: "Next", exact: true }).click();
+  const back = () => page.getByRole("button", { name: "Back", exact: true }).click();
+  const removeButtons = page.locator('button[aria-label="Remove photo"]');
+
+  await next(); // Step 1: Purpose (default "Sale")
+
+  await page.getByRole("button", { name: "Apartment", exact: true }).click();
+  await page.locator('select[name="city"]').selectOption({ index: 1 });
+  await next(); // Step 2
+
+  await page.locator('input[name="grossArea"]').fill("85");
+  await next(); // Step 3
+
+  await next(); // Step 4 (all optional)
+
+  await page.locator('input[name="price"]').fill("100000");
+  await next(); // Step 5 -> now on Step 6: Photos
+
+  await page.setInputFiles('input[type="file"]', path.join(__dirname, "fixtures/test-photo.png"));
+  await expect(removeButtons).toHaveCount(1, { timeout: 30_000 });
+
+  await next(); // Step 7: Contact
+  await expect(page.getByRole("heading", { name: "Your contact information" })).toBeVisible();
+
+  await back(); // Back to Step 6: Photos
+  await expect(page.getByRole("heading", { name: "Property photos" })).toBeVisible();
+
+  // The photo uploaded before navigating away must still be there.
+  await expect(removeButtons).toHaveCount(1, { timeout: 10_000 });
+
+  // Uploading another photo must add to, not replace, the existing one.
+  await page.setInputFiles('input[type="file"]', path.join(__dirname, "fixtures/test-photo.png"));
+  await expect(removeButtons).toHaveCount(2, { timeout: 30_000 });
+});

@@ -23,9 +23,9 @@ export function Step5Price() {
 
       <div className="max-w-xs">
         <label className="mb-2 block text-sm font-medium text-foreground">
-          {purpose === "rent" ? t("priceRent") : t("priceSale")}
+          {purpose === "rent" ? t("priceRent") : t("priceSale")} <span className="text-danger">*</span>
         </label>
-        <Input type="number" min={0} step="1" {...register("price")} />
+        <Input type="number" inputMode="numeric" min={0} step="1" aria-required="true" {...register("price")} />
         {errors.price && <p className="mt-1 text-xs text-danger">{t("priceError")}</p>}
       </div>
     </div>

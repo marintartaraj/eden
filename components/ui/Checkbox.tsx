@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, PEER_FOCUS_RING } from "@/lib/utils";
 
 export function Checkbox({
   checked,
@@ -23,12 +23,13 @@ export function Checkbox({
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
-        className="sr-only"
+        className="peer sr-only"
       />
       <span
         aria-hidden="true"
         className={cn(
           "flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-border transition-colors",
+          PEER_FOCUS_RING,
           checked && "border-accent bg-accent text-accent-foreground",
         )}
       >

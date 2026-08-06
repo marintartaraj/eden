@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getFavoriteIds } from "@/lib/data/favorites";
+import { FOCUS_RING } from "@/lib/utils";
 import "../globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -46,7 +47,11 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const [messages, current] = await Promise.all([getMessages(), getCurrentUser()]);
+  const [messages, current, commonT] = await Promise.all([
+    getMessages(),
+    getCurrentUser(),
+    getTranslations("common"),
+  ]);
   const favoriteIds = current ? await getFavoriteIds(current.user.id) : [];
 
   return (
@@ -55,10 +60,16 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
+        <a
+          href="#main-content"
+          className={`sr-only rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 ${FOCUS_RING}`}
+        >
+          {commonT("skipToContent")}
+        </a>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider user={current ? { id: current.user.id } : null} initialFavoriteIds={favoriteIds}>
             <Header current={current} />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">{children}</main>
             <Footer />
           </AuthProvider>
         </NextIntlClientProvider>

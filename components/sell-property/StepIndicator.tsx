@@ -12,7 +12,9 @@ export function StepIndicator({
   return (
     <div>
       <div className="mb-2 flex items-center justify-between text-sm">
-        <span className="font-medium text-foreground">{label}</span>
+        <span className="font-medium text-foreground" role="status" aria-live="polite">
+          {label}
+        </span>
         <span className="text-muted">
           {current + 1} / {total}
         </span>

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { AgentNav } from "@/components/agent/AgentNav";
+import { SearchablePaginatedList } from "@/components/ui/SearchablePaginatedList";
 import { Link } from "@/i18n/navigation";
 import { getMyAssignedProperties } from "@/lib/data/agent-properties";
 import { localize } from "@/lib/localize";
@@ -36,31 +37,32 @@ export default async function AgentPropertiesPage({
       <AgentNav />
 
       <div className="mt-8">
-        {properties.length === 0 ? (
-          <p className="text-sm text-muted">{t("empty")}</p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {properties.map((property) => (
-              <Link
-                key={property.id}
-                href={`/agent/properties/${property.id}`}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
-              >
-                <div>
-                  <p className="font-medium text-foreground">
-                    {localize(property.title_sq, property.title_en, appLocale)}
-                  </p>
-                  <p className="text-sm text-muted">
-                    {formatPrice(property.price, property.currency, appLocale, property.price_period)}
-                  </p>
-                </div>
-                <span className="rounded-full bg-border px-3 py-1 text-xs font-medium text-foreground">
-                  {statusT(property.status)}
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
+        <SearchablePaginatedList
+          items={properties.map((property) => (
+            <Link
+              key={property.id}
+              href={`/agent/properties/${property.id}`}
+              className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
+            >
+              <div>
+                <p className="font-medium text-foreground">
+                  {localize(property.title_sq, property.title_en, appLocale)}
+                </p>
+                <p className="text-sm text-muted">
+                  {formatPrice(property.price, property.currency, appLocale, property.price_period)}
+                </p>
+              </div>
+              <span className="rounded-full bg-border px-3 py-1 text-xs font-medium text-foreground">
+                {statusT(property.status)}
+              </span>
+            </Link>
+          ))}
+          searchText={properties.map((property) =>
+            localize(property.title_sq, property.title_en, appLocale),
+          )}
+          searchPlaceholder={t("searchPlaceholder")}
+          emptyMessage={t("empty")}
+        />
       </div>
     </Container>
   );

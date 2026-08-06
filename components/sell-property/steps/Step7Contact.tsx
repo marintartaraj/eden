@@ -21,18 +21,36 @@ export function Step7Contact() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">{t("name")}</label>
-          <Input {...register("ownerName")} />
+          <label className="mb-2 block text-sm font-medium text-foreground">
+            {t("name")} <span className="text-danger">*</span>
+          </label>
+          <Input autoComplete="name" aria-required="true" {...register("ownerName")} />
           {errors.ownerName && <p className="mt-1 text-xs text-danger">{t("nameError")}</p>}
         </div>
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">{t("phone")}</label>
-          <Input type="tel" {...register("ownerPhone")} />
+          <label className="mb-2 block text-sm font-medium text-foreground">
+            {t("phone")} <span className="text-danger">*</span>
+          </label>
+          <Input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            aria-required="true"
+            {...register("ownerPhone")}
+          />
           {errors.ownerPhone && <p className="mt-1 text-xs text-danger">{t("phoneError")}</p>}
         </div>
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">{t("email")}</label>
-          <Input type="email" {...register("ownerEmail")} />
+          <label className="mb-2 block text-sm font-medium text-foreground">
+            {t("email")} <span className="text-danger">*</span>
+          </label>
+          <Input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            aria-required="true"
+            {...register("ownerEmail")}
+          />
           {errors.ownerEmail && <p className="mt-1 text-xs text-danger">{t("emailError")}</p>}
         </div>
       </div>

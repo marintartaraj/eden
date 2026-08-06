@@ -44,7 +44,7 @@ export async function PropertyListRow({
           />
         )}
         <div className="absolute left-2 top-2 flex flex-wrap gap-1">
-          <span className="rounded-full bg-foreground px-2 py-0.5 text-[10px] font-medium text-background sm:px-3 sm:py-1 sm:text-xs">
+          <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-medium text-background sm:px-3 sm:py-1 sm:text-xs">
             {property.purpose === "sale" ? t("badgeSale") : t("badgeRent")}
           </span>
           {property.is_exclusive ? (

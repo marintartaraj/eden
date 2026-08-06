@@ -5,9 +5,11 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { reviewSubmission } from "@/lib/actions/admin-submissions";
 import { localize } from "@/lib/localize";
 import { formatPrice } from "@/lib/format";
+import { submissionStatusClasses } from "@/lib/status-styles";
 import type { AppLocale } from "@/i18n/routing";
 import type { AdminSubmission } from "@/lib/data/admin-submissions";
 import type { Database } from "@/types/supabase";
@@ -29,6 +31,7 @@ export function SubmissionReviewPanel({
 }) {
   const t = useTranslations("adminSubmissions");
   const statusT = useTranslations("submissions.status");
+  const commonT = useTranslations("common");
   const locale = useLocale() as AppLocale;
   const router = useRouter();
 
@@ -36,6 +39,7 @@ export function SubmissionReviewPanel({
   const [agentId, setAgentId] = useState(submission.assigned_agent_id ?? "");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<SubmissionStatus | null>(null);
+  const [confirmAction, setConfirmAction] = useState<"published" | "rejected" | null>(null);
   const submittingRef = useRef(false);
 
   const canReview = REVIEWABLE_STATUSES.includes(
@@ -62,14 +66,29 @@ export function SubmissionReviewPanel({
     } finally {
       submittingRef.current = false;
       setPendingAction(null);
+      setConfirmAction(null);
     }
+  }
+
+  function requestReject() {
+    if (!feedback.trim()) {
+      setErrorMessage(t("feedbackRequiredError"));
+      return;
+    }
+    setErrorMessage(null);
+    setConfirmAction("rejected");
   }
 
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-border bg-card p-6">
-        <p className="text-sm text-muted">
-          {t("statusLabel")}: <span className="font-medium text-foreground">{statusT(submission.status)}</span>
+        <p className="flex items-center gap-2 text-sm text-muted">
+          {t("statusLabel")}:
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${submissionStatusClasses(submission.status)}`}
+          >
+            {statusT(submission.status)}
+          </span>
         </p>
         <p className="mt-1 text-sm text-muted">
           {submission.submitted_by_user_id
@@ -142,15 +161,15 @@ export function SubmissionReviewPanel({
             <Button
               type="button"
               disabled={pendingAction !== null}
-              onClick={() => handleAction("published")}
+              onClick={() => setConfirmAction("published")}
             >
               {pendingAction === "published" ? t("saving") : t("actionApprove")}
             </Button>
             <Button
               type="button"
-              variant="secondary"
+              variant="destructive"
               disabled={pendingAction !== null}
-              onClick={() => handleAction("rejected")}
+              onClick={requestReject}
             >
               {pendingAction === "rejected" ? t("saving") : t("actionReject")}
             </Button>
@@ -164,6 +183,29 @@ export function SubmissionReviewPanel({
           <p className="mt-2 text-sm text-foreground">{submission.admin_feedback}</p>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmAction === "published"}
+        title={t("confirmApproveTitle")}
+        description={t("confirmApproveBody")}
+        confirmLabel={t("confirmApproveButton")}
+        cancelLabel={commonT("cancel")}
+        pending={pendingAction === "published"}
+        onConfirm={() => handleAction("published")}
+        onCancel={() => setConfirmAction(null)}
+      />
+
+      <ConfirmDialog
+        open={confirmAction === "rejected"}
+        title={t("confirmRejectTitle")}
+        description={t("confirmRejectBody")}
+        confirmLabel={t("confirmRejectButton")}
+        cancelLabel={commonT("cancel")}
+        destructive
+        pending={pendingAction === "rejected"}
+        onConfirm={() => handleAction("rejected")}
+        onCancel={() => setConfirmAction(null)}
+      />
     </div>
   );
 }

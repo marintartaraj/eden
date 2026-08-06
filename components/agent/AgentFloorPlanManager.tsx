@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { pathFromPublicUrl } from "@/lib/storage-path";
 import { cn } from "@/lib/utils";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 type FloorPlan = { id: string; url: string; label: string | null };
 
@@ -21,9 +22,12 @@ export function AgentFloorPlanManager({
   initialPlans: FloorPlan[];
 }) {
   const t = useTranslations("agentProperties.media");
+  const commonT = useTranslations("common");
   const [plans, setPlans] = useState(initialPlans);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingRemove, setPendingRemove] = useState<FloorPlan | null>(null);
+  const [removing, setRemoving] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function refresh() {
@@ -73,11 +77,14 @@ export function AgentFloorPlanManager({
   }
 
   async function handleRemove(plan: FloorPlan) {
+    setRemoving(true);
     const supabase = createClient();
     const path = pathFromPublicUrl(plan.url, BUCKET);
     await supabase.from("property_floor_plans").delete().eq("id", plan.id);
     if (path) await supabase.storage.from(BUCKET).remove([path]);
     await refresh();
+    setRemoving(false);
+    setPendingRemove(null);
   }
 
   return (
@@ -125,7 +132,7 @@ export function AgentFloorPlanManager({
               </a>
               <button
                 type="button"
-                onClick={() => handleRemove(plan)}
+                onClick={() => setPendingRemove(plan)}
                 aria-label={t("remove")}
                 className="text-muted transition-colors hover:text-danger"
               >
@@ -135,6 +142,18 @@ export function AgentFloorPlanManager({
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingRemove !== null}
+        title={t("confirmRemoveFloorPlanTitle")}
+        description={t("confirmRemoveFloorPlanBody")}
+        confirmLabel={t("confirmRemoveFloorPlanButton")}
+        cancelLabel={commonT("cancel")}
+        destructive
+        pending={removing}
+        onConfirm={() => pendingRemove && handleRemove(pendingRemove)}
+        onCancel={() => setPendingRemove(null)}
+      />
     </div>
   );
 }

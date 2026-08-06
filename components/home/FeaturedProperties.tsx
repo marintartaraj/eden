@@ -21,6 +21,7 @@ export async function FeaturedProperties({ locale }: { locale: AppLocale }) {
             <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
               {t("featuredTitle")}
             </h2>
+            <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
             <p className="mt-2 text-muted">{t("featuredSubtitle")}</p>
           </div>
           <Link

@@ -9,7 +9,7 @@ import { FloorPlansSection } from "@/components/property/FloorPlansSection";
 import { SpecsTable } from "@/components/property/SpecsTable";
 import { AmenitiesList } from "@/components/property/AmenitiesList";
 import { LocationSection } from "@/components/property/LocationSection";
-import { AgentCard } from "@/components/property/AgentCard";
+import { AgentContactCard } from "@/components/property/AgentContactCard";
 import { InquiryForm } from "@/components/property/InquiryForm";
 import { MortgageCalculator } from "@/components/property/MortgageCalculator";
 import { FavoriteButton } from "@/components/property/FavoriteButton";
@@ -132,7 +132,7 @@ export default async function PropertyDetailPage({
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="mb-2 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-foreground px-3 py-1 text-xs font-medium text-background">
+            <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-background">
               {property.purpose === "sale" ? t("badgeSale") : t("badgeRent")}
             </span>
             {property.is_exclusive ? (
@@ -185,13 +185,13 @@ export default async function PropertyDetailPage({
           <MortgageCalculator price={property.price} currency={property.currency} />
         </div>
 
-        <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:h-fit">
+        <div className="order-first flex flex-col gap-6 lg:order-none lg:sticky lg:top-24 lg:h-fit">
           <div className="rounded-2xl border border-border bg-card p-6">
             <p className="font-serif text-2xl text-foreground">
               {formatPrice(property.price, property.currency, appLocale, property.price_period)}
             </p>
           </div>
-          {property.agent && <AgentCard agent={property.agent} />}
+          {property.agent && <AgentContactCard agent={property.agent} />}
           <InquiryForm propertyId={property.id} />
         </div>
       </div>

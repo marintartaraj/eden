@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 
 // Root-level fallback for errors thrown by app/[locale]/layout.tsx itself
 // (e.g. getMessages()/getCurrentUser() failing) — app/[locale]/error.tsx
@@ -18,7 +17,9 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     console.error(error);
-    Sentry.captureException(error);
+    // Dynamic import: keeps @sentry/nextjs out of the bundle when it's
+    // disabled (see instrumentation-client.ts).
+    import("@sentry/nextjs").then((Sentry) => Sentry.captureException(error));
   }, [error]);
 
   return (

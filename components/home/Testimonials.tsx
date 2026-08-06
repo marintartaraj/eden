@@ -38,7 +38,7 @@ export async function Testimonials({ locale }: { locale: AppLocale }) {
                 </div>
               )}
               <figcaption className="flex items-center gap-3">
-                <div className="relative h-10 w-10 overflow-hidden rounded-full bg-border">
+                <div className="relative h-10 w-10 overflow-hidden rounded-full bg-accent/10">
                   {testimonial.avatar_url && (
                     <Image
                       src={testimonial.avatar_url}

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, FOCUS_RING } from "@/lib/utils";
 
 export function Chip({
   selected,
@@ -18,6 +18,7 @@ export function Chip({
       aria-pressed={selected}
       className={cn(
         "rounded-full border font-medium transition-colors",
+        FOCUS_RING,
         size === "sm" ? "px-3 py-1 text-xs" : "px-4 py-2 text-sm",
         selected
           ? "border-accent bg-accent text-accent-foreground"

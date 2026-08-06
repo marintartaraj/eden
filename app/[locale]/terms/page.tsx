@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/navigation";
+import { formatDate } from "@/lib/format";
+import type { AppLocale } from "@/i18n/routing";
+
+const LAST_UPDATED = "2026-07-01";
 
 export async function generateMetadata({
   params,
@@ -38,7 +42,9 @@ export default async function TermsPage({
     <Container className="py-8 sm:py-12">
       <div className="mx-auto max-w-2xl">
         <h1 className="font-serif text-2xl text-foreground sm:text-3xl">{t("title")}</h1>
-        <p className="mt-2 text-sm text-muted">{t("lastUpdated", { date: "July 2026" })}</p>
+        <p className="mt-2 text-sm text-muted">
+          {t("lastUpdated", { date: formatDate(LAST_UPDATED, locale as AppLocale) })}
+        </p>
         <p className="mt-6 text-sm leading-relaxed text-foreground">{t("intro")}</p>
 
         <div className="mt-8 flex flex-col gap-6">

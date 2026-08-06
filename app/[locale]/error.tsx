@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/navigation";
@@ -19,7 +18,9 @@ export default function ErrorBoundary({
 
   useEffect(() => {
     console.error(error);
-    Sentry.captureException(error);
+    // Dynamic import: keeps @sentry/nextjs out of this route's initial
+    // bundle when it's disabled (see instrumentation-client.ts).
+    import("@sentry/nextjs").then((Sentry) => Sentry.captureException(error));
   }, [error]);
 
   return (

@@ -13,25 +13,37 @@ import { geocodeAddress } from "@/lib/geocode";
 import { sendEmail } from "@/lib/email";
 import { getAdminEmails } from "@/lib/data/admin-notifications";
 import sqMessages from "@/messages/sq.json";
+import type { SubmitResult } from "@/lib/actions/result";
 
 export async function submitPropertyListing(
   input: PropertySubmissionOutput,
   turnstileToken?: string,
-) {
+): Promise<SubmitResult> {
   const parsed = propertySubmissionSchema.safeParse(input);
-  if (!parsed.success) return { success: false as const };
+  if (!parsed.success) return { success: false, reason: "validation_error" };
+
+  // Turnstile is checked before the rate limit: a slow-loading widget or an
+  // ad/privacy blocker (which prevents a token from ever arriving) must not
+  // burn through the rate-limit allowance before the user gets a real shot
+  // at submitting — that combination is what previously let a handful of
+  // quick retries lock a legitimate seller out for a full hour with no
+  // explanation.
+  const verification = await verifyTurnstileToken(turnstileToken);
+  if (!verification.verified) {
+    return {
+      success: false,
+      reason: verification.reason === "invalid_token" ? "verification_failed" : "verification_unavailable",
+    };
+  }
 
   const allowed = await checkRateLimit("property-submission", 3, 3600);
-  if (!allowed) return { success: false as const };
-
-  const humanVerified = await verifyTurnstileToken(turnstileToken);
-  if (!humanVerified) return { success: false as const };
+  if (!allowed) return { success: false, reason: "rate_limited" };
 
   const data = parsed.data;
 
   const cities = await getCities();
   const city = cities.find((c) => c.slug === data.city);
-  if (!city) return { success: false as const };
+  if (!city) return { success: false, reason: "validation_error" };
 
   const neighborhoods = await getNeighborhoods();
   const neighborhood = data.neighborhood
@@ -67,7 +79,7 @@ export async function submitPropertyListing(
     status: "submitted",
   });
 
-  if (submissionError) return { success: false as const };
+  if (submissionError) return { success: false, reason: "database_error" };
 
   const geocodeQuery = [data.addressLine, neighborhood?.name_sq, city.name_sq, "Albania"]
     .filter(Boolean)
@@ -109,7 +121,7 @@ export async function submitPropertyListing(
     owner_contact_email: data.ownerEmail,
   });
 
-  if (error) return { success: false as const };
+  if (error) return { success: false, reason: "database_error" };
 
   if (data.photos.length > 0) {
     await supabase.from("property_images").insert(
@@ -126,14 +138,18 @@ export async function submitPropertyListing(
   if (adminEmails.length > 0) {
     await sendEmail({
       to: adminEmails,
-      subject: `New property submission: ${titleSq}`,
+      subject: `New property submission / Paraqitje e re prone: ${titleSq}`,
       html: `
         <p>A new property was submitted for review: <strong>${titleSq}</strong>.</p>
         <p>Submitted by: ${data.ownerName} (${data.ownerEmail}, ${data.ownerPhone})</p>
         <p>Price: €${data.price}</p>
+        <hr />
+        <p>Një pronë e re u paraqit për shqyrtim: <strong>${titleSq}</strong>.</p>
+        <p>Dërguar nga: ${data.ownerName} (${data.ownerEmail}, ${data.ownerPhone})</p>
+        <p>Çmimi: €${data.price}</p>
       `,
     });
   }
 
-  return { success: true as const };
+  return { success: true, reference: submissionId.slice(0, 8).toUpperCase() };
 }
