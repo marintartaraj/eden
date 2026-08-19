@@ -100,6 +100,16 @@ export async function getLatestProperties(limit = 8): Promise<PropertyListItem[]
   return attachRelations(data ?? []);
 }
 
+export async function getActivePropertyCount(): Promise<number> {
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from("properties")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "active");
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export const DEFAULT_PAGE_SIZE = 12;
 
 export type SortOption = "newest" | "price_asc" | "price_desc" | "area_desc";

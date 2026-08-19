@@ -12,19 +12,23 @@ export async function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-16">
+    <section className="bg-ink py-20 text-ink-foreground">
       <Container>
-        <h2 className="mb-10 text-center font-serif text-2xl text-foreground sm:text-3xl">
-          {t("whyTitle")}
-        </h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-          {items.map((item) => (
-            <div key={item.title} className="flex flex-col items-center gap-3 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-foreground/10 text-accent-foreground">
-                <item.icon className="h-6 w-6" />
+        <div className="mb-14 text-center">
+          <span className="eyebrow !text-accent-light">{t("whyEyebrow")}</span>
+          <h2 className="mt-2 font-serif text-2xl sm:text-3xl">{t("whyTitle")}</h2>
+        </div>
+        <div className="grid grid-cols-1 gap-px border border-ink-border bg-ink-border sm:grid-cols-3">
+          {items.map((item, index) => (
+            <div key={item.title} className="flex flex-col gap-4 bg-ink p-10">
+              <div className="flex items-center gap-3">
+                <item.icon className="h-6 w-6 text-accent-light" />
+                <span className="font-label text-xs tracking-[0.2em] text-ink-muted">
+                  — {String(index + 1).padStart(2, "0")}
+                </span>
               </div>
-              <h3 className="font-serif text-lg text-foreground">{item.title}</h3>
-              <p className="max-w-xs text-sm text-muted">{item.description}</p>
+              <h3 className="font-serif text-xl">{item.title}</h3>
+              <p className="text-sm leading-relaxed text-ink-muted">{item.description}</p>
             </div>
           ))}
         </div>

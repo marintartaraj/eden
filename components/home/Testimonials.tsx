@@ -15,19 +15,22 @@ export async function Testimonials({ locale }: { locale: AppLocale }) {
   if (testimonials.length === 0) return null;
 
   return (
-    <section className="bg-card py-16">
+    <section className="py-16">
       <Container>
-        <h2 className="mb-10 text-center font-serif text-2xl text-foreground sm:text-3xl">
-          {t("testimonialsTitle")}
-        </h2>
+        <div className="mb-10 text-center">
+          <span className="eyebrow">{t("testimonialsEyebrow")}</span>
+          <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">
+            {t("testimonialsTitle")}
+          </h2>
+        </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {testimonials.map((testimonial) => (
             <figure
               key={testimonial.id}
-              className="flex flex-col gap-4 rounded-2xl border border-border bg-background p-6"
+              className="flex flex-col gap-4 border border-border bg-card p-6"
             >
-              <Quote className="h-5 w-5 text-accent" />
-              <blockquote className="flex-1 text-sm text-foreground">
+              <Quote className="h-5 w-5 text-accent-foreground" />
+              <blockquote className="flex-1 font-accent text-base italic leading-relaxed text-foreground">
                 {localize(testimonial.content_sq, testimonial.content_en, locale)}
               </blockquote>
               {testimonial.rating && (

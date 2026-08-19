@@ -30,7 +30,7 @@ export async function PropertyCard({
   return (
     <Link
       href={`/properties/${property.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lg"
+      className="group flex flex-col overflow-hidden border border-border bg-card transition-shadow hover:shadow-lg"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-border">
         {property.coverImageUrl && (
@@ -44,16 +44,16 @@ export async function PropertyCard({
           />
         )}
         <div className="absolute left-3 top-3 flex gap-2">
-          <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-background">
+          <span className="bg-card px-3 py-1 font-label text-[11px] uppercase tracking-wide text-foreground">
             {property.purpose === "sale" ? t("badgeSale") : t("badgeRent")}
           </span>
           {property.is_exclusive ? (
-            <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+            <span className="bg-ink px-3 py-1 font-label text-[11px] uppercase tracking-wide text-accent-light">
               {t("exclusive")}
             </span>
           ) : (
             property.is_featured && (
-              <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+              <span className="bg-ink px-3 py-1 font-label text-[11px] uppercase tracking-wide text-accent-light">
                 {t("featured")}
               </span>
             )
@@ -62,16 +62,18 @@ export async function PropertyCard({
         <div className="absolute right-3 top-3">
           <FavoriteButton propertyId={property.id} label={t("saveProperty")} />
         </div>
+        <div className="absolute bottom-3 right-3 bg-ink px-4 py-2 font-serif text-base text-accent-light">
+          {formatPrice(property.price, property.currency, locale, property.price_period)}
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="text-lg font-semibold text-foreground">
-          {formatPrice(property.price, property.currency, locale, property.price_period)}
-        </p>
-        <h3 className="line-clamp-1 font-serif text-base text-foreground">{title}</h3>
-        {location && <p className="text-sm text-muted">{location}</p>}
+        <h3 className="line-clamp-1 font-serif text-lg text-foreground">{title}</h3>
+        {location && (
+          <p className="font-label text-xs uppercase tracking-wide text-muted">{location}</p>
+        )}
 
-        <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-muted">
+        <div className="mt-2 flex flex-wrap items-center gap-3 border-t border-border pt-3 text-sm text-muted">
           {property.gross_area != null && (
             <span className="flex items-center gap-1">
               <Move className="h-4 w-4" aria-label={t("areaLabel")} />

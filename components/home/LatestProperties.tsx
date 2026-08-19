@@ -14,18 +14,19 @@ export async function LatestProperties({ locale }: { locale: AppLocale }) {
   if (properties.length === 0) return null;
 
   return (
-    <section className="bg-card py-16">
+    <section className="bg-background-alt py-16">
       <Container>
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
+            <span className="eyebrow">{t("latestEyebrow")}</span>
+            <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">
               {t("latestTitle")}
             </h2>
             <p className="mt-2 text-muted">{t("latestSubtitle")}</p>
           </div>
           <Link
             href="/properties"
-            className="text-sm font-medium text-accent hover:opacity-80"
+            className="font-label text-[13px] uppercase tracking-wider text-foreground underline decoration-accent-foreground underline-offset-4"
           >
             {t("viewAll")}
           </Link>

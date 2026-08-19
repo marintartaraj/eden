@@ -3,33 +3,35 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
 import { FOCUS_RING } from "@/lib/utils";
 
-const FOOTER_LINK_CLASS = `rounded-sm text-muted hover:text-foreground ${FOCUS_RING}`;
+const FOOTER_LINK_CLASS = `rounded-sm text-sm text-ink-muted hover:text-ink-foreground ${FOCUS_RING}`;
+const FOOTER_HEAD_CLASS = "eyebrow mb-4 !text-accent-light";
 
 export async function Footer() {
   const t = await getTranslations();
 
   return (
-    <footer className="border-t border-border bg-card">
-      <Container className="grid gap-10 py-12 sm:grid-cols-[1.5fr_1fr_1fr]">
+    <footer className="border-t border-ink-border bg-ink text-ink-foreground">
+      <Container className="grid gap-10 py-14 sm:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-          <span className="font-serif text-xl font-semibold text-foreground">
+          <span className="flex items-center gap-2.5 font-serif text-xl font-semibold text-ink-foreground">
+            <span className="flex h-8 w-8 rotate-45 items-center justify-center border border-accent-light text-sm text-accent-light">
+              <span className="-rotate-45 font-serif font-bold">E</span>
+            </span>
             {t("site.name")}
           </span>
-          <p className="mt-3 max-w-sm text-sm text-muted">
+          <p className="mt-3 max-w-sm text-sm text-ink-muted">
             {t("site.description")}
           </p>
           <Link
             href="/contact"
-            className={`mt-4 inline-flex h-10 items-center rounded-full border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-accent-foreground hover:text-accent-foreground ${FOCUS_RING}`}
+            className={`mt-4 inline-flex h-10 items-center border border-ink-border px-4 text-sm font-medium text-ink-foreground transition-colors hover:border-accent-light hover:text-accent-light ${FOCUS_RING}`}
           >
             {t("footer.contactCta")}
           </Link>
         </div>
 
-        <div className="flex flex-col gap-2 text-sm">
-          <span className="mb-1 font-medium text-foreground">
-            {t("footer.explore")}
-          </span>
+        <div className="flex flex-col gap-3">
+          <span className={FOOTER_HEAD_CLASS}>{t("footer.explore")}</span>
           <Link href="/properties" className={FOOTER_LINK_CLASS}>
             {t("nav.properties")}
           </Link>
@@ -47,10 +49,8 @@ export async function Footer() {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-2 text-sm">
-          <span className="mb-1 font-medium text-foreground">
-            {t("footer.company")}
-          </span>
+        <div className="flex flex-col gap-3">
+          <span className={FOOTER_HEAD_CLASS}>{t("footer.company")}</span>
           <Link href="/agents" className={FOOTER_LINK_CLASS}>
             {t("nav.agents")}
           </Link>
@@ -69,9 +69,9 @@ export async function Footer() {
         </div>
       </Container>
 
-      <div className="border-t border-border py-4">
+      <div className="border-t border-ink-border py-4">
         <Container>
-          <p className="text-xs text-muted">
+          <p className="text-xs text-ink-muted">
             © {new Date().getFullYear()} {t("site.name")}. {t("footer.rights")}
           </p>
         </Container>

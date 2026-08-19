@@ -14,7 +14,7 @@ export async function AgentCard({ agent }: { agent: AgentRow }) {
   return (
     <Link
       href={`/agents/${agent.slug}`}
-      className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-shadow hover:shadow-lg"
+      className="group flex flex-col items-center gap-3 border border-border bg-card p-6 text-center transition-colors hover:border-accent-foreground"
     >
       <div className="relative h-24 w-24 overflow-hidden rounded-full bg-border">
         {agent.photo_url && (
@@ -25,7 +25,9 @@ export async function AgentCard({ agent }: { agent: AgentRow }) {
         <p className="font-serif text-base text-foreground">{agent.full_name}</p>
         {title && <p className="text-sm text-muted">{title}</p>}
       </div>
-      <span className="text-sm font-medium text-accent group-hover:opacity-80">{t("viewProfile")}</span>
+      <span className="font-label text-xs uppercase tracking-wide text-accent-foreground group-hover:opacity-80">
+        {t("viewProfile")}
+      </span>
     </Link>
   );
 }

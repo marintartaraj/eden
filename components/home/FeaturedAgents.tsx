@@ -9,10 +9,11 @@ export async function FeaturedAgents() {
   if (agents.length === 0) return null;
 
   return (
-    <section className="bg-card py-16">
+    <section className="py-16">
       <Container>
-        <div className="mb-8">
-          <h2 className="font-serif text-2xl text-foreground sm:text-3xl">{t("agentsTitle")}</h2>
+        <div className="mb-10">
+          <span className="eyebrow">{t("agentsEyebrow")}</span>
+          <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">{t("agentsTitle")}</h2>
           <p className="mt-2 text-muted">{t("agentsSubtitle")}</p>
         </div>
 

@@ -41,8 +41,11 @@ export async function Header({ current }: { current: CurrentUser | null }) {
       <Container className="flex h-16 items-center justify-between gap-6">
         <Link
           href="/"
-          className="font-serif text-xl font-semibold tracking-tight text-foreground"
+          className="flex items-center gap-2.5 font-serif text-xl font-semibold tracking-tight text-foreground"
         >
+          <span className="flex h-8 w-8 rotate-45 items-center justify-center border border-accent-foreground text-sm text-accent-foreground">
+            <span className="-rotate-45 font-serif font-bold">E</span>
+          </span>
           Eden
         </Link>
 
@@ -79,7 +82,7 @@ export async function Header({ current }: { current: CurrentUser | null }) {
           <LocaleSwitcher />
           <Link
             href="/sell-property"
-            className="hidden rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 sm:inline-flex"
+            className="hidden border border-foreground px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-foreground hover:text-background sm:inline-flex"
           >
             {t("sellProperty")}
           </Link>

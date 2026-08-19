@@ -17,11 +17,11 @@ export async function BrowseByCity({ locale }: { locale: AppLocale }) {
   return (
     <section className="py-16">
       <Container>
-        <div className="mb-8">
-          <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
+        <div className="mb-10">
+          <span className="eyebrow">{t("browseCityEyebrow")}</span>
+          <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">
             {t("browseCityTitle")}
           </h2>
-          <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
           <p className="mt-2 text-muted">{t("browseCitySubtitle")}</p>
         </div>
 
@@ -30,7 +30,7 @@ export async function BrowseByCity({ locale }: { locale: AppLocale }) {
             <Link
               key={city.id}
               href={`/properties?city=${city.slug}`}
-              className="group relative aspect-[4/3] overflow-hidden rounded-2xl"
+              className="group relative aspect-[4/3] overflow-hidden border border-border"
             >
               {city.imageUrl ? (
                 <Image
@@ -43,10 +43,10 @@ export async function BrowseByCity({ locale }: { locale: AppLocale }) {
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/30 to-border" />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute bottom-0 left-0 p-4 text-white">
                 <p className="font-serif text-lg">{localize(city.name_sq, city.name_en, locale)}</p>
-                <p className="text-sm text-white/80">
+                <p className="font-label text-xs uppercase tracking-wide text-white/80">
                   {t("propertiesCount", { count: city.propertyCount })}
                 </p>
               </div>

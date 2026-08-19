@@ -39,23 +39,23 @@ export async function PropertyTypeShortcuts() {
   return (
     <section className="py-16">
       <Container>
-        <div className="mb-8">
+        <div className="mb-10">
           <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
             {t("home.typesTitle")}
           </h2>
-          <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
+          <div className="mt-3 h-px w-12 bg-accent-foreground" />
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
           {PROPERTY_TYPES.map((type) => {
             const Icon = ICONS[type];
             return (
               <Link
                 key={type}
                 href={`/properties?type=${type}`}
-                className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-colors hover:border-accent"
+                className="flex flex-col items-center gap-3 bg-card p-6 text-center transition-colors hover:bg-background-alt"
               >
-                <Icon className="h-6 w-6 text-accent" />
-                <span className="text-sm font-medium text-foreground">
+                <Icon className="h-6 w-6 text-accent-foreground" />
+                <span className="font-label text-sm text-foreground">
                   {t(`propertyTypes.${type}`)}
                 </span>
               </Link>

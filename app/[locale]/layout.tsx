@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Playfair_Display, Cormorant_Garamond, Lora } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -13,7 +13,13 @@ import { FOCUS_RING } from "@/lib/utils";
 import "../globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"] });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+const lora = Lora({ variable: "--font-lora", subsets: ["latin"], weight: ["400", "500"] });
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -57,7 +63,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${cormorant.variable} ${lora.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         <a

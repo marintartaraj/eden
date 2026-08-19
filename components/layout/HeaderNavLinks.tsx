@@ -18,7 +18,7 @@ export function HeaderNavLinks({ links }: { links: NavLink[] }) {
             href={link.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "whitespace-nowrap rounded-sm text-sm font-medium transition-colors hover:text-foreground",
+              "whitespace-nowrap rounded-sm font-label text-[13px] tracking-wide transition-colors hover:text-foreground",
               FOCUS_RING,
               active ? "text-foreground" : "text-muted",
             )}

@@ -16,22 +16,22 @@ export async function FeaturedProperties({ locale }: { locale: AppLocale }) {
   return (
     <section className="py-16">
       <Container>
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif text-2xl text-foreground sm:text-3xl">
+            <span className="eyebrow">{t("featuredEyebrow")}</span>
+            <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">
               {t("featuredTitle")}
             </h2>
-            <div className="mt-3 h-0.5 w-12 bg-accent-foreground" />
-            <p className="mt-2 text-muted">{t("featuredSubtitle")}</p>
           </div>
-          <Link
-            href="/properties?featured=1"
-            className="text-sm font-medium text-accent hover:opacity-80"
-          >
-            {t("viewAll")}
-          </Link>
+          <p className="max-w-xs text-sm text-muted">{t("featuredSubtitle")}</p>
         </div>
         <PropertyGrid properties={properties} locale={locale} priorityCount={3} />
+        <Link
+          href="/properties?featured=1"
+          className="mx-auto mt-12 block w-fit border-b border-accent-foreground pb-1.5 font-label text-[13px] uppercase tracking-wider text-foreground"
+        >
+          {t("viewAll")} →
+        </Link>
       </Container>
     </section>
   );

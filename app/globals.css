@@ -2,33 +2,63 @@
 
 :root {
   --background: #f4efe4;
+  --background-alt: #ece2cc;
   --foreground: #1a1a18;
   --muted: #706553;
   --card: #fbf8f1;
   --border: #e2dac8;
   --accent: var(--foreground);
   --accent-foreground: #9c8358;
+  --accent-light: #cdad84;
   --success: #286c44;
   --warning: #875d16;
   --danger: #ac4237;
+  /* Dark "ink" surfaces for the full-bleed banded sections (stats strip,
+     process, footer) — a second palette, not just --foreground inverted,
+     since it needs its own muted/border pairing at the right contrast. */
+  --ink: #0f0d0c;
+  --ink-soft: #191512;
+  --ink-border: #2a2521;
+  --ink-foreground: #f7f3ec;
+  --ink-muted: #a49a8c;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-light: var(--accent-light);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-border: var(--ink-border);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-fraunces);
+  --font-serif: var(--font-playfair);
+  --font-accent: var(--font-cormorant);
+  --font-label: var(--font-lora);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Small uppercase tracked label used above headings on marketing sections —
+   repeated on every home/about/contact section, so it's a shared class
+   rather than copy-pasted Tailwind utility strings eight times over. */
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-foreground);
 }

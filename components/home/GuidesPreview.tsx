@@ -14,8 +14,9 @@ export async function GuidesPreview({ locale }: { locale: AppLocale }) {
   return (
     <section className="py-16">
       <Container>
-        <div className="mb-8">
-          <h2 className="font-serif text-2xl text-foreground sm:text-3xl">{t("guidesTitle")}</h2>
+        <div className="mb-10">
+          <span className="eyebrow">{t("guidesEyebrow")}</span>
+          <h2 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">{t("guidesTitle")}</h2>
           <p className="mt-2 text-muted">{t("guidesSubtitle")}</p>
         </div>
 
@@ -24,7 +25,7 @@ export async function GuidesPreview({ locale }: { locale: AppLocale }) {
             <Link
               key={guide.id}
               href={`/guides/${guide.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card"
+              className="group flex flex-col overflow-hidden border border-border bg-card"
             >
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-border">
                 {guide.cover_image && (
@@ -41,8 +42,8 @@ export async function GuidesPreview({ locale }: { locale: AppLocale }) {
                 <h3 className="line-clamp-2 font-serif text-base text-foreground">
                   {localize(guide.title_sq, guide.title_en, locale)}
                 </h3>
-                <span className="mt-auto pt-2 text-sm font-medium text-accent group-hover:opacity-80">
-                  {t("readMore")}
+                <span className="mt-auto pt-2 font-label text-xs uppercase tracking-wide text-accent-foreground group-hover:opacity-80">
+                  {t("readMore")} →
                 </span>
               </div>
             </Link>

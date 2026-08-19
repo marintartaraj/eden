@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { Hero } from "@/components/home/Hero";
+import { StatsStrip } from "@/components/home/StatsStrip";
 import { PropertyTypeShortcuts } from "@/components/home/PropertyTypeShortcuts";
 import { FeaturedProperties } from "@/components/home/FeaturedProperties";
 import { LatestProperties } from "@/components/home/LatestProperties";
@@ -12,7 +13,14 @@ import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { Testimonials } from "@/components/home/Testimonials";
 import { GuidesPreview } from "@/components/home/GuidesPreview";
 import { getCities, getNeighborhoods } from "@/lib/data/locations";
+import { getActivePropertyCount } from "@/lib/data/properties";
+import { getAllAgents } from "@/lib/data/agents";
 import type { AppLocale } from "@/i18n/routing";
+
+// Full-bleed hero backdrop — placeholder architecture photo until Eden
+// supplies real listing/office photography to swap in here.
+const HERO_IMAGE =
+  "https://images.pexels.com/photos/7031594/pexels-photo-7031594.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
 export async function generateMetadata({
   params,
@@ -39,23 +47,37 @@ export default async function HomePage({
   setRequestLocale(locale);
   const appLocale = locale as AppLocale;
 
-  const [t, cities, neighborhoods] = await Promise.all([
+  const [t, cities, neighborhoods, listingCount, agents] = await Promise.all([
     getTranslations("home"),
     getCities(),
     getNeighborhoods(),
+    getActivePropertyCount(),
+    getAllAgents(),
   ]);
 
   return (
     <>
-      <section className="border-b border-border bg-card py-12 sm:py-16">
-        <Container className="flex flex-col items-center gap-8 text-center">
-          <div className="max-w-2xl">
-            <h1 className="font-serif text-3xl text-foreground sm:text-4xl">{t("heroTitle")}</h1>
-            <p className="mt-3 text-muted">{t("heroSubtitle")}</p>
+      <section
+        className="relative flex min-h-[85vh] items-end bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(10,9,8,.42) 0%, rgba(8,7,6,.85) 100%), url('${HERO_IMAGE}')`,
+        }}
+      >
+        <Container className="w-full pb-16 pt-28 [text-shadow:0_1px_12px_rgba(0,0,0,0.35)] sm:pb-20">
+          <span className="eyebrow block !text-accent-light">{t("heroEyebrow")}</span>
+          <h1 className="mt-5 max-w-2xl font-serif text-4xl font-semibold leading-[1.08] text-background sm:text-5xl lg:text-6xl">
+            {t("heroTitle")}
+          </h1>
+          <p className="mt-5 max-w-md font-label text-base leading-relaxed text-background/85">
+            {t("heroSubtitle")}
+          </p>
+          <div className="mt-10">
+            <Hero cities={cities} neighborhoods={neighborhoods} />
           </div>
-          <Hero cities={cities} neighborhoods={neighborhoods} />
         </Container>
       </section>
+
+      <StatsStrip listings={listingCount} cities={cities.length} agents={agents.length} />
 
       <PropertyTypeShortcuts />
       <FeaturedProperties locale={appLocale} />

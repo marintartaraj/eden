@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"] });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Page Not Found",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 // next-intl (no locale has been resolved at this point).
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`}>
       <body className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-4 text-center font-sans text-foreground">
         <h1 className="font-serif text-2xl sm:text-3xl">Page Not Found</h1>
         <p className="max-w-md text-sm text-muted">

@@ -63,7 +63,7 @@ export function Hero({
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-3xl border border-border bg-card p-4 shadow-sm sm:p-6">
+    <div className="mx-auto w-full max-w-4xl border border-border bg-card p-4 shadow-2xl sm:p-6">
       <div className="mb-4 inline-flex rounded-full bg-background p-1">
         {(["sale", "rent"] as const).map((option) => (
           <button
